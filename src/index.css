@@ -1,0 +1,121 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.navbar_container {
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 12px;
+  background: #393939;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.5);
+}
+.navbar_container a {
+  text-decoration: none;
+}
+.first_Navbar_container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.first_Navbar_container p {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.second_Navbar_container {
+  padding: 32px;
+  display: flex;
+  gap: 6px;
+}
+.second_Navbar_container button {
+  padding: 12px;
+  cursor: pointer;
+}
+.second_Navbar_container > :first-child {
+  color: rgba(255, 0, 0, 0.76);
+}
+.second_Navbar_container a button {
+  color: rgba(0, 128, 0, 0.596);
+}
+
+.home_container {
+  background: rgba(237, 234, 224, 0.2);
+  width: 100%;
+  border: 1px solid #ffffff50;
+  height: 540px;
+  display: flex;
+  justify-content: center;
+}
+
+.product_container {
+  width: 100vw;
+  height: auto;
+  border: 1px solid #00000042;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px;
+}
+.items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  width: 350px;
+}
+.items img {
+  width: 150px;
+  aspect-ratio: 1;
+}
+.innerItems {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.innerItems span {
+  color: #000000b6;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 18px;
+}
+.innerItems h4 {
+  margin: 0px;
+  margin: 15px 0px;
+  color: rgba(46, 15, 5, 0.541);
+}
+.innerItems p {
+  font-weight: bold;
+  margin: 0px;
+  margin: 5px;
+}
+.price_rating {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px;
+}
+.items button {
+  padding: 10px;
+  background: #393939;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@media (max-width: 470px) {
+  .navbar_container {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+  }
+}
