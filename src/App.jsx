@@ -1,36 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import Products from "./Components/Products";
-import axios from "axios";
 import DetailedPage from "./Components/DetailedPage";
+import { ProductProvider } from "./Components/ProductProvider";
+import AddProduct from "./Components/AddProduct";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import UpdateProduct from "./Components/UpdateProduct";
 const App = () => {
-  const [products, setProducts] = useState();
-
-  const fetchData = async (url) => {
-    const req = await axios.get(url);
-    let response = await req.data;
-    setProducts(response);
-  };
-
-  useEffect(() => {
-    fetchData("http://localhost:3000/products");
-  }, []);
   return (
-    <>
+   <>
+    <ToastContainer position="top-center" autoClose={500} />
+    <ProductProvider>
       <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/product" element={<Products products={products} />} />
-          <Route
-            path="/detail/:id"
-            element={<DetailedPage products={products} />}
-          />
+          <Route path="/product" element={<Products />} />
+          <Route path="/detail/:id" element={<DetailedPage />} />
+          <Route path="/addproduct" element={<AddProduct />} />
+          <Route path="/updateproduct/:id" element={<UpdateProduct />} />
         </Routes>
       </Router>
-    </>
+    </ProductProvider>
+   </>
   );
 };
 

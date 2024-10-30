@@ -12,7 +12,9 @@ const Navbar = () => {
           </div>
         </Link>
         <div className="second_Navbar_container">
-          <button>Logout</button>
+         <Link to={'/addproduct'}>
+         <button>Add Product</button>
+         </Link>
           <Link to={"/product"}>
             <button>Products</button>
           </Link>
