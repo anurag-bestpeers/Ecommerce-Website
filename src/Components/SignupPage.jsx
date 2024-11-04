@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../Services/commonApi";
 import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -7,12 +7,21 @@ const SignupPage = () => {
     username: "",
     password: "",
   });
+  const [userData, setUserData] = useState();
+  const fetchData = async () => {
+    const responseData = await api("get", "http://localhost:3000/users");
+    setUserData(responseData);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [userData]);
 
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let trimValue=value.trim();
+    let trimValue = value.trim();
 
     setNewSignUp({
       ...newSignUp,
@@ -45,13 +54,22 @@ const SignupPage = () => {
       setErrors(validation);
       return;
     }
+    let userexistOrNot = userData.some(
+      (item) => item.username == newSignUp.username
+    );
+
+    if (userexistOrNot) {
+      toast.error("user already exist");
+    } else {
       await api("post", "http://localhost:3000/users", newSignUp);
       toast.success("success");
       setNewSignUp({
         username: "",
         password: "",
       });
+    }
   };
+
   return (
     <>
       <h2 className="signupHeading">User Signup Page</h2>
@@ -80,7 +98,8 @@ const SignupPage = () => {
           <button onClick={handleSignup}>Signup</button>
         </div>
         <div>
-            <span className="span">already have an account ?</span> <Link to={'/login'}>Log in</Link>
+          <span className="span">already have an account ?</span>{" "}
+          <Link to={"/login"}>Log in</Link>
         </div>
       </div>
     </>
