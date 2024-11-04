@@ -9,7 +9,7 @@ const UpdateProduct = () => {
   const [prevData, setPrevData] = useState({});
   const navigate = useNavigate();
   const { getData } = useContext(ProductContext);
-  const imageBaseUrl = "../../public/Photos/";
+  // const imageBaseUrl = "../../public/Photos/";
 
   
 
@@ -54,14 +54,14 @@ const UpdateProduct = () => {
     }
   };
 
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (error) => reject(error);
+  //   });
+  // };
 
   const handleUpdate = async (e) => {
     e.preventDefault(); 
@@ -69,18 +69,18 @@ const UpdateProduct = () => {
     getData();
     navigate('/product');
   };
-  const getFileName = (path) => path.split('\\').pop(); 
-  const getImageUrl = (image) => {
-    if (image.startsWith("http")) {
-      return image; 
-    } else if (image.startsWith("data:image")) {
-      return image;
-    } else {
+  // const getFileName = (path) => path.split('\\').pop(); 
+  // const getImageUrl = (image) => {
+  //   if (image.startsWith("http")) {
+  //     return image; 
+  //   } else if (image.startsWith("data:image")) {
+  //     return image;
+  //   } else {
      
-      const fileName = getFileName(image);
-      return `${imageBaseUrl}${fileName}`; 
-    }
-  };
+  //     const fileName = getFileName(image);
+  //     return `${imageBaseUrl}${fileName}`; 
+  //   }
+  // };
 
   return (
     <div className="addProductContainer">
@@ -146,7 +146,7 @@ const UpdateProduct = () => {
           {prevData.image && (
             <img
               style={{ width: "50px", height: "50px" }}
-              src={getImageUrl(prevData.image)} 
+              src={prevData.image} 
               alt="Product Preview"
             />
           )}

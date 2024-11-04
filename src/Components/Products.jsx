@@ -4,24 +4,24 @@ import { ProductContext } from "./ProductProvider";
 
 const Products = () => {
   const { products, getData, softDelete } = useContext(ProductContext);
-  const imageBaseUrl = "../../public/Photos/";
-  const placeholderImage = "../../public/Photos/placeholder.png";
+  // const imageBaseUrl = "../../public/Photos/";
+  // const placeholderImage = "../../public/Photos/placeholder.png";
 
   useEffect(() => {
     getData();
   }, []);
 
-  const getFileName = (path) => path.split('\\').pop();
+  // const getFileName = (path) => path.split('\\').pop();
 
-  const getImageUrl = (image) => {
-    if (image && image.startsWith("http")) {
-      return image; 
-    } else if (image && image.startsWith("data:image")) {
-      return image;
-    } else {
-      return image ? `${imageBaseUrl}${getFileName(image)}` : placeholderImage; 
-    }
-  };
+  // const getImageUrl = (image) => {
+  //   if (image && image.startsWith("http")) {
+  //     return image; 
+  //   } else if (image && image.startsWith("data:image")) {
+  //     return image;
+  //   } else {
+  //     return image ? `${imageBaseUrl}${getFileName(image)}` : placeholderImage; 
+  //   }
+  // };
 
   const handleSoftDelete = (id) => {
     softDelete(id);
@@ -31,12 +31,12 @@ const Products = () => {
     <div className="product_container">
       {products && products.length > 0 ? (
         products.map((item) => {
-          const imageUrl = getImageUrl(item.image);
+          // const imageUrl = getImageUrl(item.image);
 
           return (
             <div key={item.id} className="items">
               <Link to={`/detail/${item.id}`}>
-                <img src={imageUrl} alt={item.imageAlt || "Product Image"} />
+                <img src={item.image} alt={item.imageAlt || "Product Image"} />
               </Link>
               <div className="innerItems">
                 <h4>{(item.title ? item.title.toUpperCase() : "Untitled").slice(0, 27) + "..."}</h4>
