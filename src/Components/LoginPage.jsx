@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import api from "../Services/commonApi";
 import { ToastContainer, toast } from "react-toastify";
-const LoginPage = () => {
+import { Link, useNavigate } from "react-router-dom";
+const LoginPage = ({ setTokenExist }) => {
   const [newLogin, setNewLogin] = useState({
     username: "",
     password: "",
@@ -9,13 +10,24 @@ const LoginPage = () => {
 
   const [userData, setUserData] = useState([]);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  const createRandomString = () => {
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < 3; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+    let trimValue = value.trim();
     setNewLogin({
       ...newLogin,
-      [name]: value,
+      [name]: trimValue,
     });
     setErrors({
       ...errors,
@@ -54,7 +66,13 @@ const LoginPage = () => {
     });
 
     if (loginSuccessful) {
-      toast.success("Login Success");
+      const randomString = createRandomString();
+      localStorage.setItem("token", randomString);
+
+      setTokenExist(true);
+
+      navigate("/");
+      //   toast.success("Login Success");
       setNewLogin({
         username: "",
         password: "",
@@ -72,6 +90,7 @@ const LoginPage = () => {
   useEffect(() => {
     fetchData();
   }, [userData]);
+
   return (
     <>
       <h2 className="loginHeading">User Login Page</h2>
@@ -98,6 +117,10 @@ const LoginPage = () => {
         </div>
         <div>
           <button onClick={handleLogin}>Login</button>
+        </div>
+        <div>
+          <span className="span">Don't have any account ?</span>{" "}
+          <Link to={"/signup"}>Sign in</Link>
         </div>
       </div>
     </>

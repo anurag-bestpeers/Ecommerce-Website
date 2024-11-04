@@ -19,16 +19,24 @@ body {
   text-decoration: none;
 }
 
-
 .first_Navbar_container p {
   font-size: 1.5rem;
   color: #333;
   font-weight: bold;
 }
-.first_Navbar_container a{
+.first_Navbar_container a {
   text-decoration: none;
 }
-
+.second_Navbar_container button {
+  background: none;
+  border: none;
+  color: #4caf50;
+  cursor: pointer;
+  font-size: 18px;
+}
+.second_Navbar_container button:hover {
+  color: #fff;
+}
 .second_Navbar_container {
   display: flex;
   gap: 15px;
@@ -37,33 +45,46 @@ body {
 .second_Navbar_container a {
   text-decoration: none;
   font-size: 1rem;
-  color: #4CAF50;
+  color: #4caf50;
   font-weight: 500;
   padding: 8px 15px;
-  border: 1px solid #4CAF50;
+  border: 1px solid #4caf50;
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .second_Navbar_container a:hover {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
 .second_Navbar_container a.active {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
-
 .home_container {
+  position: relative;
   background: rgba(237, 234, 224, 0.2);
   width: 100%;
   border: 1px solid #ffffff50;
   height: 540px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
+.home_container img {
+  position: absolute;
+  width: 600px;
+  height: 530px;
+  margin-top: 10px;
+  z-index: 0;
+}
+.home_container h2 {
+  position: absolute;
+  z-index: 1;
+}
+
 .product_container {
   display: flex;
   flex-wrap: wrap;
@@ -124,12 +145,13 @@ body {
 }
 
 .productBtn button {
+  width: 100px;
   padding: 8px 15px;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
-  background-color: #4CAF50;
+  background-color: #4caf4fe1 !important;
   color: white;
   transition: background-color 0.2s ease;
 }
@@ -143,11 +165,11 @@ body {
 }
 
 .productBtn button:last-child {
-  background-color: #f44336;
+  background-color: #45a049;
 }
 
 .productBtn button:last-child:hover {
-  background-color: #e53935;
+  background-color: #45a049;
 }
 
 .product_container p {
@@ -157,7 +179,6 @@ body {
   margin-top: 20px;
 }
 
-/* Container styling */
 .form_container {
   padding: 20px;
   margin-top: 10px !important;
@@ -243,12 +264,12 @@ body {
   background-color: #4a00b8;
   transform: scale(0.98);
 }
-.detailBtn{
+.detailBtn {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   font-weight: bold;
   color: #fff;
-  background-color: #f44336;
+  background-color: #45a049;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -273,6 +294,9 @@ body {
 }
 .addProductContainer p {
   color: red;
+}
+.span {
+  color: #00000093;
 }
 .signupHeading {
   font-size: 2rem;
@@ -302,7 +326,7 @@ body {
   margin-bottom: 5px;
 }
 
-.signup-container input{
+.signup-container input {
   width: 95%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -312,14 +336,14 @@ body {
 
 .signup-container input:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #4caf50;
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
 }
 
 .signup-container button {
   width: 100%;
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
@@ -331,7 +355,7 @@ body {
 .signup-container button:hover {
   background-color: #45a049;
 }
-.signup-container p{
+.signup-container p {
   color: rgba(255, 0, 0, 0.486);
 }
 .loginHeading {
@@ -350,7 +374,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
 }
-.login-container p{
+.login-container p {
   color: rgba(255, 0, 0, 0.486);
 }
 .login-container div {
@@ -364,7 +388,7 @@ body {
   margin-bottom: 5px;
 }
 
-.login-container input{
+.login-container input {
   width: 95%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -374,14 +398,14 @@ body {
 
 .login-container input:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #4caf50;
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
 }
 
 .login-container button {
   width: 100%;
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
@@ -393,7 +417,6 @@ body {
 .login-container button:hover {
   background-color: #45a049;
 }
-
 
 @media (max-width: 470px) {
   .navbar_container {

@@ -9,9 +9,6 @@ const UpdateProduct = () => {
   const [prevData, setPrevData] = useState({});
   const navigate = useNavigate();
   const { getData } = useContext(ProductContext);
-  // const imageBaseUrl = "../../public/Photos/";
-
-  
 
   useEffect(() => {
     axios
@@ -25,13 +22,12 @@ const UpdateProduct = () => {
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
 
-    
     if (name === "image" && files[0]) {
       const file = files[0];
       const base64 = await convertToBase64(file);
       setPrevData({
         ...prevData,
-        [name]: base64, 
+        [name]: base64,
       });
     } else if (name === "image") {
       setPrevData({
@@ -64,23 +60,11 @@ const UpdateProduct = () => {
   };
 
   const handleUpdate = async (e) => {
-    e.preventDefault(); 
-    await api('put',`http://localhost:3000/products/${id}`, prevData);
+    e.preventDefault();
+    await api("put", `http://localhost:3000/products/${id}`, prevData);
     getData();
-    navigate('/product');
+    navigate("/product");
   };
-  // const getFileName = (path) => path.split('\\').pop(); 
-  // const getImageUrl = (image) => {
-  //   if (image.startsWith("http")) {
-  //     return image; 
-  //   } else if (image.startsWith("data:image")) {
-  //     return image;
-  //   } else {
-     
-  //     const fileName = getFileName(image);
-  //     return `${imageBaseUrl}${fileName}`; 
-  //   }
-  // };
 
   return (
     <div className="addProductContainer">
@@ -109,7 +93,7 @@ const UpdateProduct = () => {
           <label> Description</label>
           <textarea
             name="description"
-            value={prevData.description }
+            value={prevData.description}
             onChange={handleChange}
           />
         </div>
@@ -146,7 +130,7 @@ const UpdateProduct = () => {
           {prevData.image && (
             <img
               style={{ width: "50px", height: "50px" }}
-              src={prevData.image} 
+              src={prevData.image}
               alt="Product Preview"
             />
           )}

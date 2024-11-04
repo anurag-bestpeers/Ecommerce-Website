@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "../Services/commonApi";
 import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 const SignupPage = () => {
   const [newSignUp, setNewSignUp] = useState({
     username: "",
@@ -11,10 +12,11 @@ const SignupPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let trimValue=value.trim();
 
     setNewSignUp({
       ...newSignUp,
-      [name]: value,
+      [name]: trimValue,
     });
 
     setErrors({
@@ -43,14 +45,12 @@ const SignupPage = () => {
       setErrors(validation);
       return;
     }
-    if (newSignUp.username !== "" && newSignUp.password !== "") {
       await api("post", "http://localhost:3000/users", newSignUp);
-     toast.success("success")
+      toast.success("success");
       setNewSignUp({
         username: "",
         password: "",
       });
-    }
   };
   return (
     <>
@@ -78,6 +78,9 @@ const SignupPage = () => {
         </div>
         <div>
           <button onClick={handleSignup}>Signup</button>
+        </div>
+        <div>
+            <span className="span">already have an account ?</span> <Link to={'/login'}>Log in</Link>
         </div>
       </div>
     </>

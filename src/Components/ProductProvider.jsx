@@ -12,7 +12,7 @@ export const ProductProvider = ({ children }) => {
       deleted: true,
     });
     toast.success("Item deleted...");
-    getData()
+    getData();
   };
   const getData = () => {
     const responseData = api("get", "http://localhost:3000/products");
