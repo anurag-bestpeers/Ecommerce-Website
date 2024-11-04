@@ -9,6 +9,8 @@ import AddProduct from "./Components/AddProduct";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UpdateProduct from "./Components/UpdateProduct";
+import SignupPage from "./Components/SignupPage";
+import LoginPage from "./Components/LoginPage";
 const App = () => {
   return (
    <>
@@ -19,6 +21,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product" element={<Products />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/detail/:id" element={<DetailedPage />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/updateproduct/:id" element={<UpdateProduct />} />

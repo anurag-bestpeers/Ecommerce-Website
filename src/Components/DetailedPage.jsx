@@ -20,7 +20,7 @@ const DetailedPage = () => {
                     <p>Price - ${Math.round(item.price)}</p>
                     <p>Rating - {item.rating.rate}</p>
                   </div>
-                  <button>Buy Now</button>
+                  <button className="detailBtn">Buy Now</button>
                 </div>
               </div>
             );

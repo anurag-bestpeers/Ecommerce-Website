@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
-
+import { MdEdit } from "react-icons/md";
+import { MdOutlineDelete } from "react-icons/md";
 const Products = () => {
   const { products, getData, softDelete } = useContext(ProductContext);
   // const imageBaseUrl = "../../public/Photos/";
@@ -45,11 +46,11 @@ const Products = () => {
                   <p>Rating - {item.rating?.rate}</p>
                 </div>
                 <div className="productBtn">
-                  <button>Buy Now</button>
+                  {/* <button>Buy Now</button> */}
                   <Link to={`/updateproduct/${item.id}`}>
-                    <button>Edit</button>
+                    <button><MdEdit/></button>
                   </Link>
-                  <button onClick={() => handleSoftDelete(item.id)}>Delete</button>
+                  <button onClick={() => handleSoftDelete(item.id)}><MdOutlineDelete/></button>
                 </div>
               </div>
             </div>

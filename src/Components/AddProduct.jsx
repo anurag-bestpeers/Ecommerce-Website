@@ -30,7 +30,7 @@ const AddProduct = () => {
 
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
-    
+
     if (name === "image" && files[0]) {
       const file = files[0];
       const base64 = await convertToBase64(file);
@@ -38,7 +38,10 @@ const AddProduct = () => {
     } else if (name === "rate") {
       setFormData({ ...formData, rating: { rate: parseFloat(value) } });
     } else {
-      setFormData({ ...formData, [name]: name === "price" ? parseFloat(value) : value });
+      setFormData({
+        ...formData,
+        [name]: name === "price" ? parseFloat(value) : value,
+      });
     }
 
     setErrorMsg({ ...errorMsg, [name]: "" });
@@ -46,7 +49,13 @@ const AddProduct = () => {
 
   const handleValidate = () => {
     let errors = {};
-    const requiredFields = ["title", "price", "description", "category", "rate"];
+    const requiredFields = [
+      "title",
+      "price",
+      "description",
+      "category",
+      "rate",
+    ];
     requiredFields.forEach((field) => {
       if (field === "rate" && formData.rating.rate === "") {
         errors[field] = `${field} is required!`;
@@ -67,8 +76,10 @@ const AddProduct = () => {
     }
 
     try {
-      const isDuplicate = products.some(
-        (product) => product.title ? product.title.toLowerCase() === formData.title.toLowerCase():''
+      const isDuplicate = products.some((product) =>
+        product.title
+          ? product.title.toLowerCase() === formData.title.toLowerCase()
+          : ""
       );
 
       if (isDuplicate) {
@@ -168,7 +179,9 @@ const AddProduct = () => {
             onKeyDown={(e) => handleKeyDown(e, rateRef)}
             ref={categoryRef}
           >
-            <option value="" disabled>Select</option>
+            <option value="" disabled>
+              Select
+            </option>
             <option value="men's clothing">Men's Clothing</option>
             <option value="jewelery">Jewelery</option>
             <option value="electronics">Electronics</option>
