@@ -34,12 +34,12 @@ const AppContent = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
 
-          {/* <Route element={<ProtectedRoutes/>}> */}
+          <Route element={<ProtectedRoutes/>}>
           <Route path="/product" element={<Products />} />
           <Route path="/detail/:id" element={<DetailedPage />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/updateproduct/:id" element={<UpdateProduct />} />
-          {/* </Route> */}
+          </Route>
 
           
         </Routes>

@@ -1,21 +1,31 @@
 {
   "users": [
     {
-      "id": "6d95",
+      "id": "e407",
       "username": "anurag31",
-      "password": "123"
+      "password": "1213",
+      "category": "seller"
     },
     {
-      "id": "e8af",
-      "username": "john12",
-      "password": "456"
+      "id": "f7f8",
+      "username": "john",
+      "password": "123",
+      "category": "seller"
     },
     {
-      "id": "ab63",
-      "username": "michael23",
-      "password": "111"
+      "id": "728c",
+      "username": "micahel33",
+      "password": "333",
+      "category": "seller"
+    },
+    {
+      "id": "d105",
+      "username": "emily",
+      "password": "311",
+      "category": "seller"
     }
   ],
+  
   "products": [
     {
       "id": "1",

@@ -1,48 +1,71 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../public/Photos/logo.png"; // Ensure you have 3 different image paths
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 function Home() {
   return (
-    <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
+    <div
+      id="carouselExample"
+      className="carousel slide "
+      data-bs-ride="carousel"
+      data-bs-interval="2000"
+    >
       <div className="carousel-inner">
-        {/* First Slide */}
         <div className="carousel-item active">
-        <img src={logo} className="d-block mx-auto" alt="Slide 2" style={{ maxWidth: "60%", height: "auto" }} />
-          <div className="carousel-caption d-none d-md-block">
-            {/* <h5>First Slide Label</h5>
-            <p>Some representative placeholder content for the first slide.</p> */}
-          </div>
+          <img
+            src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+            className="d-block mx-auto"
+            alt="Slide 2"
+            style={{ minWidth: "100%", height: "590px" }}
+          />
+          <div className="carousel-caption d-none d-md-block"></div>
+        </div>
+        <div className="carousel-item">
+          <img
+            src="https://images.pexels.com/photos/64613/pexels-photo-64613.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            className="d-block mx-auto"
+            alt="Slide 2"
+            style={{ minWidth: "100%", height: "590px" }}
+          />
+          <div className="carousel-caption d-none d-md-block"></div>
         </div>
 
-        {/* Second Slide */}
         <div className="carousel-item">
-        <img src={logo} className="d-block mx-auto" alt="Slide 2" style={{ maxWidth: "60%", height: "auto" }} />
-          <div className="carousel-caption d-none d-md-block">
-            {/* <h5>Second Slide Label</h5>
-            <p>Some representative placeholder content for the second slide.</p> */}
-          </div>
-        </div>
-
-        {/* Third Slide */}
-        <div className="carousel-item">
-        <img src={logo} className="d-block mx-auto" alt="Slide 2" style={{ maxWidth: "60%", height: "auto" }} />
-          <div className="carousel-caption d-none d-md-block">
-            <h5>Third Slide Label</h5>
-            <p>Some representative placeholder content for the third slide.</p>
-          </div>
+          <img
+            src="https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            className="d-block mx-auto"
+            alt="Slide 2"
+            style={{ minWidth: "100%", height: "590px" }}
+          />
+          <div className="carousel-caption d-none d-md-block"></div>
         </div>
       </div>
 
-      {/* Carousel Controls */}
-      <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-  <span className="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
-  <span className="visually-hidden">Previous</span>
-</button>
-<button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-  <span className="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
-  <span className="visually-hidden">Next</span>
-</button>
+      {/* <button
+        className="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExample"
+        data-bs-slide="prev"
+        style={{ top: "10%",left:"15%" }} // Adjusts the position of the previous button
+      >
+        <span
+          className="carousel-control-prev-icon bg-dark rounded-circle"
+          aria-hidden="true"
+        ></span>
+        <span className="visually-hidden">Previous</span>
+      </button>
+      <button
+        className="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExample"
+        data-bs-slide="next"
+        style={{ top: "10%",right:"15%" }} // Adjusts the position of the next button
+      >
+        <span
+          className="carousel-control-next-icon bg-dark rounded-circle"
+          aria-hidden="true"
+        ></span>
+        <span className="visually-hidden">Next</span>
+      </button> */}
     </div>
   );
 }

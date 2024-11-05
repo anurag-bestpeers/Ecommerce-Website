@@ -6,6 +6,8 @@ const SignupPage = () => {
   const [newSignUp, setNewSignUp] = useState({
     username: "",
     password: "",
+    cPassword: "",
+    category: "select",
   });
   const [userData, setUserData] = useState();
   const fetchData = async () => {
@@ -28,6 +30,18 @@ const SignupPage = () => {
       [name]: trimValue,
     });
 
+    if(name=='cPassword')
+    {
+      if(newSignUp[name]==newSignUp.password)
+      {
+        setErrors({
+          ...errors,
+          name:""
+        })
+      }
+      
+    }
+
     setErrors({
       ...errors,
       [name]: "",
@@ -35,12 +49,16 @@ const SignupPage = () => {
   };
 
   const validate = () => {
-    let arr = ["username", "password"];
+    let arr = ["username", "password", "cPassword", "category"];
     let msg = {};
 
     arr.forEach((item) => {
       if (newSignUp[item] == "") {
         msg[item] = `${item} is required`;
+      } else if (newSignUp[item] == "select") {
+        msg[item] = `${item} is required`;
+      } else if (newSignUp.cPassword!=newSignUp.password) {
+        msg['cPassword'] = `please match the password`;
       }
     });
 
@@ -61,11 +79,19 @@ const SignupPage = () => {
     if (userexistOrNot) {
       toast.error("user already exist");
     } else {
-      await api("post", "http://localhost:3000/users", newSignUp);
+      const obj = {
+        username: newSignUp.username,
+        password: newSignUp.password,
+        category: newSignUp.category,
+      };
+
+      await api("post", "http://localhost:3000/users", obj);
       toast.success("success");
       setNewSignUp({
         username: "",
         password: "",
+        cPassword: "",
+        category: "select",
       });
     }
   };
@@ -93,6 +119,39 @@ const SignupPage = () => {
             onChange={handleChange}
           />
           <p>{errors.password && errors.password}</p>
+        </div>
+
+        <div>
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            value={newSignUp.cPassword}
+            name="cPassword"
+            onChange={handleChange}
+          />
+          <p>{errors.cPassword && errors.cPassword}</p>
+        </div>
+
+        <div>
+          <label>Enter Username</label>
+          {/* <input
+            type="text"
+            value={newSignUp.username}
+            name="username"
+            onChange={handleChange}
+          /> */}
+          <select
+            name="category"
+            value={newSignUp.category}
+            onChange={handleChange}
+          >
+            <option selected disabled value="select">
+              Select
+            </option>
+            <option value="seller">Seller</option>
+            <option value="buyer">Buyer</option>
+          </select>
+          <p>{errors.category && errors.category}</p>
         </div>
         <div>
           <button onClick={handleSignup}>Signup</button>
