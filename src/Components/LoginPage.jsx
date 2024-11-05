@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import api from "../Services/commonApi";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-const LoginPage = ({ setTokenExist }) => {
+import { ProductContext } from "./ProductProvider";
+const LoginPage = () => {
+  const {setTokenExist}=useContext(ProductContext);
   const [newLogin, setNewLogin] = useState({
     username: "",
     password: "",

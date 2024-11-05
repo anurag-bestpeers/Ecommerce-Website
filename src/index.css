@@ -1,8 +1,12 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 .navbar_container {
   display: flex;
   justify-content: space-between;

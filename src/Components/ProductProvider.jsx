@@ -6,7 +6,7 @@ export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState(null);
-
+  const [tokenExist, setTokenExist] = useState(false);
   const softDelete = async (id) => {
     await api("patch", `http://localhost:3000/products/${id}`, {
       deleted: true,
@@ -23,8 +23,16 @@ export const ProductProvider = ({ children }) => {
     getData();
   }, []);
 
+  useEffect(() => {
+    const getToken = localStorage.getItem("token");
+
+    if (getToken) {
+      setTokenExist(true);
+    }
+  }, [tokenExist]);
+
   return (
-    <ProductContext.Provider value={{ products, getData, softDelete }}>
+    <ProductContext.Provider value={{ products, getData, softDelete,tokenExist,setTokenExist }}>
       {children}
       <ToastContainer position="top-center" autoClose={500} />
     </ProductContext.Provider>
