@@ -1,42 +1,43 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import logo from "../../public/Photos/logo.png";
 import { Link } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
 import { BsCart3 } from "react-icons/bs";
+import { IoIosHeart } from "react-icons/io";
+import api from "../Services/commonApi";
 const Navbar = ({ handleLogout }) => {
-  const { tokenExist } = useContext(ProductContext);
+  const { tokenExist,newLogin , getCategory, setgetcategory } = useContext(ProductContext);
+  const[cart,setCart]=useState(0);
+  const[users,setUsers]=useState([]);
+
+  const fetchCarts=async()=>{
+    await api('get',"http://localhost:3000/carts").then(((res)=>setCart(res)))
+  }
+
+  const fetchUsers=async()=>{
+    await api('get',"http://localhost:3000/users").then(((res)=>setUsers(res)))
+  }
+
+  useEffect(()=>{
+
+    fetchCarts();
+    users.forEach((item)=>{
+      if(item.username==newLogin.username)
+      {
+        setgetcategory(item.category);
+        console.log(getCategory);
+        
+      }
+    })
+    
+  },[cart])
+
+  useEffect(()=>{
+    fetchUsers();
+  },[])
   return (
     <>
-      {/* {tokenExist ? (
-        <div className="navbar_container">
-          <div className="first_Navbar_container">
-            <img width={"70px"} height={"70px"} src={logo} />
-            <Link to={"/"}>
-              <p>Ecommerce Store</p>
-            </Link>
-          </div>
-          <div className="second_Navbar_container">
-            <Link to={"/addproduct"}>Add Product</Link>
-            <Link to={"/product"}>Products</Link>
-            <Link to={'/'}>
-              <button onClick={handleLogout}>Logout</button>
-            </Link>
-          </div>
-        </div>
-      ) : (
-        <div className="navbar_container">
-          <div className="first_Navbar_container">
-            <img width={"70px"} height={"70px"} src={logo} />
-            <Link to={"/"}>
-              <p>Ecommerce Store</p>
-            </Link>
-          </div>
-          <div className="second_Navbar_container">
-            <Link to={"/login"}>Login</Link>
-            <Link to={"/signup"}>Signup</Link>
-          </div>
-        </div>
-      )} */}
+      
 
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
@@ -63,31 +64,50 @@ const Navbar = ({ handleLogout }) => {
 
           {tokenExist ? (
             <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav ms-auto d-flex align-items-center">
+              <ul className="navbar-nav ms-auto d-flex gap-4 align-items-center">
                 <li className="nav-item me-3 d-flex align-items-center position-relative">
-                  <Link to="/">
+                  <Link to="/cart">
                     <BsCart3 className="text-light fs-2" />
                     <span
                       className="badge bg-light text-dark position-absolute"
                       style={{ top: "-0.5rem", right: "-0.5rem" }}
                     >
-                     0
+                     {cart.length}
+                    </span>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/wishlist">
+                    <IoIosHeart style={{fill:'red'}} className="text-light fs-2" />
+                    <span
+                      className="badge bg-light text-dark position-absolute"
+                      style={{ top: "-0.5rem", right: "-0.5rem" }}
+                    >
+                     {cart.length}
                     </span>
                   </Link>
                 </li>
 
-                <li className="nav-item">
-                  <Link to={"/addproduct"}>
-                    <button type="button" className="btn btn-outline-light m-2">
-                      Add Products
-                    </button>
-                  </Link>
-                </li>
+               {
+                getCategory=='seller'  &&  <li className="nav-item">
+                <Link to={"/addproduct"}>
+                  <button type="button" className="btn btn-outline-light m-2">
+                    Add Products
+                  </button>
+                </Link>
+              </li>
+               }
                 <li className="nav-item">
                   <Link to={"/product"}>
                     <button type="button" className="btn btn-outline-light m-2">
                       Products
                     </button>
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link to={"/"}>
+                  <button type="button" onClick={handleLogout} className="btn btn-outline-light">Logout</button>
                   </Link>
                 </li>
               </ul>

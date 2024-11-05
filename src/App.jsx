@@ -14,12 +14,15 @@ import LoginPage from "./Components/LoginPage";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
 // In src/index.js or src/App.js
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Carts from "./Components/Carts";
+import Wishlist from "./Components/Wishlist";
 
 const AppContent = () => {
   const { tokenExist, setTokenExist } = useContext(ProductContext);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem('username')
     setTokenExist(false);
   };
 
@@ -38,11 +41,14 @@ const AppContent = () => {
           <Route path="/product" element={<Products />} />
           <Route path="/detail/:id" element={<DetailedPage />} />
           <Route path="/addproduct" element={<AddProduct />} />
+          <Route path="/cart" element={<Carts />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/updateproduct/:id" element={<UpdateProduct />} />
           </Route>
 
-          
+          <Route path="*" element={<Home/>}/>
         </Routes>
+       
       </Router>
     </>
   );

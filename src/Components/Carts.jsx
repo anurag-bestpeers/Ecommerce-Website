@@ -1,23 +1,29 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import api from "../Services/commonApi";
 import { Link } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
-import { MdEdit } from "react-icons/md";
-import { MdOutlineDelete } from "react-icons/md";
-const Products = () => {
-  const { products, getData, softDelete,getCategory } = useContext(ProductContext);
 
-  useEffect(() => {
-    getData();
-  }, []);
+const Carts = () => {
+  const [carts, setCarts] = useState([]);
+  const [carts1, setCarts1] = useState([]);
+  const { getCategory } = useContext(ProductContext);
 
-  const handleSoftDelete = (id) => {
-    softDelete(id);
+  const fetchData = async () => {
+    await api("get", "http://localhost:3000/carts")
+      .then((res) => setCarts(res))
+      .catch((err) => console.log("Error Occured", err));
+
+    const wishlistItems = carts.map((item) => item["0"]);
+    setCarts1(wishlistItems);
   };
 
+  useEffect(() => {
+    fetchData();
+  }, [carts]);
   return (
     <div className="product_container">
-      {products && products.length > 0 ? (
-        products.map((item) => {
+      {carts1 && carts1.length > 0 ? (
+        carts1.map((item) => {
           return (
             <div key={item.id} className="items">
               <Link to={`/detail/${item.id}`}>
@@ -34,18 +40,7 @@ const Products = () => {
                   <p>Price - ${Math.round(item.price)}</p>
                   <p>Rating - {item.rating?.rate}</p>
                 </div>
-               {
-                getCategory=='seller' &&  <div className="productBtn">
-                <Link to={`/updateproduct/${item.id}`}>
-                  <button >
-                    <MdEdit />
-                  </button>
-                </Link>
-                <button  onClick={() => handleSoftDelete(item.id)}>
-                  <MdOutlineDelete />
-                </button>
-              </div>
-               }
+                
               </div>
             </div>
           );
@@ -57,4 +52,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Carts;

@@ -6,7 +6,16 @@ export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState(null);
+
   const [tokenExist, setTokenExist] = useState(false);
+
+  const[getCategory,setgetcategory]=useState(null);
+
+  const [newLogin, setNewLogin] = useState({
+    username: "",
+    password: "",
+  });
+
   const softDelete = async (id) => {
     await api("patch", `http://localhost:3000/products/${id}`, {
       deleted: true,
@@ -32,7 +41,7 @@ export const ProductProvider = ({ children }) => {
   }, [tokenExist]);
 
   return (
-    <ProductContext.Provider value={{ products, getData, softDelete,tokenExist,setTokenExist }}>
+    <ProductContext.Provider value={{ products, getData, softDelete,tokenExist,setTokenExist,newLogin,setNewLogin ,getCategory,setgetcategory}}>
       {children}
       <ToastContainer position="top-center" autoClose={500} />
     </ProductContext.Provider>

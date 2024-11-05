@@ -4,11 +4,11 @@ import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
 const LoginPage = () => {
-  const {setTokenExist}=useContext(ProductContext);
-  const [newLogin, setNewLogin] = useState({
-    username: "",
-    password: "",
-  });
+  const {setTokenExist,newLogin,setNewLogin}=useContext(ProductContext);
+  // const [newLogin, setNewLogin] = useState({
+  //   username: "",
+  //   password: "",
+  // });
 
   const [userData, setUserData] = useState([]);
   const [errors, setErrors] = useState({});
@@ -75,6 +75,7 @@ const LoginPage = () => {
 
       navigate("/");
       //   toast.success("Login Success");
+      localStorage.setItem('username',newLogin.username);
       setNewLogin({
         username: "",
         password: "",

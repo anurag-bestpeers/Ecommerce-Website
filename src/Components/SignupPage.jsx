@@ -30,16 +30,13 @@ const SignupPage = () => {
       [name]: trimValue,
     });
 
-    if(name=='cPassword')
-    {
-      if(newSignUp[name]==newSignUp.password)
-      {
+    if (name == "cPassword") {
+      if (newSignUp[name] == newSignUp.password) {
         setErrors({
           ...errors,
-          name:""
-        })
+          name: "",
+        });
       }
-      
     }
 
     setErrors({
@@ -57,8 +54,8 @@ const SignupPage = () => {
         msg[item] = `${item} is required`;
       } else if (newSignUp[item] == "select") {
         msg[item] = `${item} is required`;
-      } else if (newSignUp.cPassword!=newSignUp.password) {
-        msg['cPassword'] = `please match the password`;
+      } else if (newSignUp.cPassword != newSignUp.password) {
+        msg["cPassword"] = `please match the password`;
       }
     });
 
@@ -133,13 +130,8 @@ const SignupPage = () => {
         </div>
 
         <div>
-          <label>Enter Username</label>
-          {/* <input
-            type="text"
-            value={newSignUp.username}
-            name="username"
-            onChange={handleChange}
-          /> */}
+          <label>Select Category</label>
+
           <select
             name="category"
             value={newSignUp.category}

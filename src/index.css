@@ -98,14 +98,30 @@
 }
 
 .items {
-  width: 250px;
+  width: 280px;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+.detailitem{
+    width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.detailitem img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+  }
+  .detailitem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
 .items:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -243,8 +259,8 @@
 .form_container input:focus,
 .form_container select:focus,
 .form_container textarea:focus {
-  border-color: #6200ea;
-  box-shadow: 0 0 4px rgba(98, 0, 234, 0.5);
+  border-color: #45a049;
+  box-shadow: 0 0 4px #45a049;
   outline: none;
 }
 
@@ -253,7 +269,7 @@
   font-size: 1rem;
   font-weight: bold;
   color: #fff;
-  background-color: #6200ea;
+  background-color:#45a049;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -261,11 +277,11 @@
 }
 
 .form_container button:hover {
-  background-color: #5a00d1;
+  background-color: #45a049;
 }
 
 .form_container button:active {
-  background-color: #4a00b8;
+  background-color: #45a049;
   transform: scale(0.98);
 }
 .detailBtn {
@@ -332,7 +348,7 @@
   margin-bottom: 5px;
 }
 
-.signup-container input {
+.signup-container input ,.signup-container select{
   width: 95%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -345,6 +361,11 @@
   border-color: #4caf50;
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
 }
+.signup-container select:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+  }
 
 .signup-container button {
   width: 100%;
@@ -424,6 +445,18 @@
 
 .login-container button:hover {
   background-color: #45a049;
+}
+.wishlist{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.wishlist svg{
+    font-size: 30px;
+    cursor: pointer;
+}
+svg.activeWishlist{
+    fill: red;
 }
 
 @media (max-width: 470px) {
