@@ -4,23 +4,49 @@ import { ProductContext } from "./ProductProvider";
 import api from "../Services/commonApi";
 import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
-import axios from "axios";
 const DetailedPage = () => {
   const { id } = useParams();
   const { products } = useContext(ProductContext);
   const [singleUser, setSingleUser] = useState({});
-  // const[wishArray,setWishArray]=useState();
   const [wishlist, setWishlist] = useState(false);
+  const [carts, setCarts] = useState([]);
 
   useEffect(() => {
     const filterUser = products.filter((item, _) => item.id == id);
     setSingleUser(filterUser);
     console.log(singleUser);
   }, []);
-  const handleCart = async () => {
-    await api("post", "http://localhost:3000/carts", singleUser);
-    toast.success("Item added to cart");
+
+  const fetchCarts = async () => {
+    await api("get", "http://localhost:3000/carts")
+      .then((res) => setCarts(res))
+      .catch((error) => console.log(error));
   };
+  const handleCart = async () => {
+    let flag = false;
+    
+    const wishlistItems = carts.map((item) => item["0"].id);
+    
+    wishlistItems.forEach((itemId) => {
+      if (itemId == id) { 
+        flag = true;
+        toast.error("Item exists");
+        return;
+      }
+    });
+    
+    if (!flag) {
+      await api("post", "http://localhost:3000/carts", singleUser);
+      toast.success("Item added to cart");
+    }
+  };
+
+
+
+  useEffect(()=>{
+    fetchCarts()
+  },[carts])
+  
 
   const handleWishlist = async () => {
     if (wishlist) {

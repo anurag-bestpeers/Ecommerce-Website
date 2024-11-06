@@ -51,7 +51,7 @@ function Home() {
               src={furniture}
               className="d-block mx-auto"
               alt="Slide 2"
-              style={{ minWidth: "100%", height: "590px" }}
+              style={{ minWidth: "100%", height: "582px" }}
             />
             <div className="carousel-caption d-none d-md-block"></div>
           </div>
@@ -60,7 +60,7 @@ function Home() {
               src={grocery}
               className="d-block mx-auto"
               alt="Slide 2"
-              style={{ minWidth: "100%", height: "590px" }}
+              style={{ minWidth: "100%", height: "582px" }}
             />
             <div className="carousel-caption d-none d-md-block"></div>
           </div>
@@ -70,7 +70,7 @@ function Home() {
               src={dress}
               className="d-block mx-auto"
               alt="Slide 2"
-              style={{ minWidth: "100%", height: "590px" }}
+              style={{ minWidth: "100%", height: "582px" }}
             />
             <div className="carousel-caption d-none d-md-block"></div>
           </div>
@@ -80,7 +80,7 @@ function Home() {
               src={gadget}
               className="d-block mx-auto"
               alt="Slide 2"
-              style={{ minWidth: "100%", height: "590px" }}
+              style={{ minWidth: "100%", height: "582px" }}
             />
             <div className="carousel-caption d-none d-md-block"></div>
           </div>

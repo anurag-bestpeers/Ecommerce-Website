@@ -40,7 +40,7 @@ const Navbar = ({ handleLogout }) => {
       
 
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
+        <div className="container-fluid px-3">
           <div className="d-flex align-items-center gap-2">
             <img src={logo} width={50} height={50} alt="" />
             <Link
@@ -64,7 +64,7 @@ const Navbar = ({ handleLogout }) => {
 
           {tokenExist ? (
             <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav ms-auto d-flex gap-4 align-items-center">
+              <ul className="navbar-nav ms-auto d-flex gap-1 align-items-center">
                 <li className="nav-item me-3 d-flex align-items-center position-relative">
                   <Link to="/cart">
                     <BsCart3 className="text-light fs-2" />
