@@ -467,6 +467,10 @@ svg.activeWishlist{
     gap: 2px;
   }
 }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 input[type="number"] {
   -moz-appearance: textfield; /* Firefox */

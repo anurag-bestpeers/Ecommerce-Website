@@ -2,6 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { ProductContext } from "./ProductProvider";
+import grocery from "../../public/Photos/grocery.jpg";
+import dress from "../../public/Photos/dress.jpg";
+import furniture from "../../public/Photos/furniture.jpg";
+import gadget from "../../public/Photos/gadget.jpg";
 function Home() {
   const { tokenExist } = useContext(ProductContext);
   const [username, setusername] = useState("");
@@ -15,16 +19,36 @@ function Home() {
     <>
       <div
         id="carouselExample"
-        className="carousel slide "
+        className="carousel slide relative"
         data-bs-ride="carousel"
         data-bs-interval="2000"
       >
-        {tokenExist && <h3 style={{position:'relative',zIndex:99,textAlign:'center'}}>welcome {username}</h3>}
+        {tokenExist && (
+          <h3
+            style={{
+              position: "absolute",
+              zIndex: 99,
+              left: "40%",
+              top: "10px",
+              color: "#4CAF50",
+              fontSize: "24px",
+              fontWeight: "bold",
+              transition: "transform 0.3s ease, opacity 0.5s ease",
+              opacity: 0,
+              animation: "fadeIn 1s forwards",
+              cursor: "pointer",
+              color: "###",
+            }}
+            onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+            onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+          >
+            WELCOME {username.toUpperCase()}
+          </h3>
+        )}
         <div className="carousel-inner">
           <div className="carousel-item active">
-            
             <img
-              src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+              src={furniture}
               className="d-block mx-auto"
               alt="Slide 2"
               style={{ minWidth: "100%", height: "590px" }}
@@ -33,17 +57,7 @@ function Home() {
           </div>
           <div className="carousel-item">
             <img
-              src="https://images.pexels.com/photos/1556688/pexels-photo-1556688.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              className="d-block mx-auto"
-              alt="Slide 2"
-              style={{ minWidth: "100%", height: "590px" }}
-            />
-            <div className="carousel-caption d-none d-md-block"></div>
-          </div>
-
-          <div className="carousel-item">
-            <img
-              src="https://images.pexels.com/photos/934069/pexels-photo-934069.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src={grocery}
               className="d-block mx-auto"
               alt="Slide 2"
               style={{ minWidth: "100%", height: "590px" }}
@@ -53,7 +67,17 @@ function Home() {
 
           <div className="carousel-item">
             <img
-              src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src={dress}
+              className="d-block mx-auto"
+              alt="Slide 2"
+              style={{ minWidth: "100%", height: "590px" }}
+            />
+            <div className="carousel-caption d-none d-md-block"></div>
+          </div>
+
+          <div className="carousel-item">
+            <img
+              src={gadget}
               className="d-block mx-auto"
               alt="Slide 2"
               style={{ minWidth: "100%", height: "590px" }}
