@@ -500,9 +500,6 @@ body {
   font-size: 30px;
   cursor: pointer;
 }
-/* svg.activeWishlist {
-  fill: red;
-} */
 
 @media (max-width: 470px) {
   .navbar_container {
@@ -521,7 +518,6 @@ body {
   }
 }
 
-/*  */
 
 .cart_items {
   display: flex;
