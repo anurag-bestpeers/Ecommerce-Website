@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
 const LoginPage = () => {
-  const { setTokenExist, newLogin, setNewLogin } = useContext(ProductContext);
+  const { newLogin, setNewLogin } = useContext(ProductContext);
 
   const [userData, setUserData] = useState([]);
   const [errors, setErrors] = useState({});
@@ -67,12 +67,10 @@ const LoginPage = () => {
     if (loginSuccessful) {
       const randomString = createRandomString();
       localStorage.setItem("token", randomString);
-
-      setTokenExist(true);
-
+      localStorage.setItem("username", newLogin.username);
       navigate("/");
 
-      localStorage.setItem("username", newLogin.username);
+      
       setNewLogin({
         username: "",
         password: "",

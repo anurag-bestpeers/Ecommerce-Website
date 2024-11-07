@@ -1,13 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import api from "../Services/commonApi";
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState(null);
-
-  const [tokenExist, setTokenExist] = useState(false);
 
   const [newLogin, setNewLogin] = useState({
     username: "",
@@ -30,28 +28,17 @@ export const ProductProvider = ({ children }) => {
     getData();
   }, []);
 
-  useEffect(() => {
-    const getToken = localStorage.getItem("token");
-
-    if (getToken) {
-      setTokenExist(true);
-    }
-  }, [tokenExist]);
-
   return (
     <ProductContext.Provider
       value={{
         products,
         getData,
         softDelete,
-        tokenExist,
-        setTokenExist,
         newLogin,
         setNewLogin,
       }}
     >
       {children}
-      <ToastContainer position="top-center" autoClose={500} />
     </ProductContext.Provider>
   );
 };

@@ -1,34 +1,60 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
-import { MdEdit } from "react-icons/md";
-import { MdOutlineDelete } from "react-icons/md";
+import { MdEdit, MdOutlineDelete } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../Services/commonApi";
+
 const Products = () => {
   const [users, setUsers] = useState([]);
   const { products, getData, softDelete, getCategory } =
     useContext(ProductContext);
+  const [username, setUsername] = useState("");
+  const [wishlist, setWishlist] = useState([]);
 
-  const [username, setusername] = useState("");
+  useEffect(() => {
+    const user = localStorage.getItem("username");
+    if (user) {
+      setUsername(user);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await api("get", "http://localhost:3000/users");
+        setUsers(res);
+
+        const foundUser = res.find((user) => user.username === username);
+        if (foundUser) {
+          setWishlist(foundUser.wishlist || []);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, [users]);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   const handleSoftDelete = (id) => {
     softDelete(id);
   };
 
   const handleCart = async (item) => {
-    const foundUser = users.find((element) => element.username === username);
-
+    const foundUser = users.find((element) => element.username == username);
     const isDuplicate = foundUser.cart.some(
       (cartItem) => cartItem.id === item.id
     );
-
     if (isDuplicate) {
       toast.error("Item already in the cart");
       return;
     }
-
     try {
       await api("patch", `http://localhost:3000/users/${foundUser.id}`, {
         cart: [...foundUser.cart, item],
@@ -42,52 +68,44 @@ const Products = () => {
   const handleWishlist = async (item) => {
     const foundUser = users.find((element) => element.username === username);
 
-    const isDuplicate = foundUser.wishlist.some(
-      (cartItem) => cartItem.id === item.id
-    );
-
-    if (isDuplicate) {
-      toast.error("Item already in the cart");
+    if (!foundUser) {
+      toast.error("User not found");
       return;
     }
 
-    setTimeout(async () => {
-      await api("patch", `http://localhost:3000/users/${foundUser.id}`, {
-        wishlist: [...foundUser.wishlist, item],
-      });
-    }, 0);
-    toast.success("Item added to wishlist");
-  };
+    const isDuplicate = wishlist.some(
+      (wishlistItem) => wishlistItem.id === item.id
+    );
 
-  useEffect(() => {
-    const user = localStorage.getItem("username");
-    if (user) {
-      setusername(user);
-    }
-  }, []);
+    try {
+      let updatedWishlist;
 
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await api("get", "http://localhost:3000/users");
-        setUsers(res);
-      } catch (error) {
-        console.error("Error fetching users:", error);
+      if (isDuplicate) {
+        updatedWishlist = wishlist.filter(
+          (wishlistItem) => wishlistItem.id !== item.id
+        );
+        toast.info("Item removed from wishlist");
+      } else {
+        updatedWishlist = [...wishlist, item];
+        toast.success("Item added to wishlist");
       }
-    };
 
-    fetchUsers();
-  }, [users]);
-
-  useEffect(() => {
-    getData();
-  }, [token]);
+      setWishlist(updatedWishlist);
+      await api("patch", `http://localhost:3000/users/${foundUser.id}`, {
+        wishlist: updatedWishlist,
+      });
+    } catch (error) {
+      console.error("Error updating the wishlist:", error);
+    }
+  };
 
   return (
     <div className="product_container">
       {products && products.length > 0 ? (
         products.map((item) => {
+          const isInWishlist = wishlist.some(
+            (wishlistItem) => wishlistItem.id === item.id
+          );
           return (
             <div key={item.id} className="items">
               <Link to={`/detail/${item.id}`}>
@@ -104,7 +122,7 @@ const Products = () => {
                   <p>Price - ${Math.round(item.price)}</p>
                   <p>Rating - {item.rating?.rate}</p>
                 </div>
-                {getCategory == "seller" && (
+                {getCategory === "seller" && (
                   <div className="productBtn">
                     <Link to={`/updateproduct/${item.id}`}>
                       <button>
@@ -116,7 +134,6 @@ const Products = () => {
                     </button>
                   </div>
                 )}
-
                 <div className="wishlist">
                   <button
                     onClick={() => handleCart(item)}
@@ -124,10 +141,15 @@ const Products = () => {
                   >
                     Add to cart
                   </button>
-
                   <FaHeart
-                    className="activeWishlist"
+                    className={`activeWishlist ${
+                      isInWishlist ? "in-wishlist" : ""
+                    }`}
                     onClick={() => handleWishlist(item)}
+                    style={{
+                      color: isInWishlist ? "red" : "grey",
+                      cursor: "pointer",
+                    }}
                   />
                 </div>
               </div>

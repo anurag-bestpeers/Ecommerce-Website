@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../Services/commonApi";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
+import { Link } from "react-router-dom";
 const Carts = () => {
   const [username, setusername] = useState("");
   const [users, setUsers] = useState([]);
@@ -64,8 +65,10 @@ const Carts = () => {
           {userCart.map((item, index) => {
             return (
               <div className="item">
-                <img src={item.image} width={100} />
-                <h3>{item.title.slice(0, 20)}</h3>
+              <Link to={`/detail/${item.id}`}>
+              <img src={item.image} width={100} />
+              </Link>
+                <h3>{item.title.slice(0, 10)+"..."}</h3>
                 <p>${item.price}</p>
                 <button
                   onClick={() => handleDelete(item.id)}

@@ -51,13 +51,13 @@ const Wishlist = () => {
 
   return (
     <div className="cart_container">
-      <h2>Shopping Wishlist</h2>
+      <h2> Wishlist</h2>
       {userWishlist.length > 0 ? (
         <div className="cart_items">
           {userWishlist.map((item, index) => {
             return (
               <div key={index} className="item">
-                <img src={item.image} width={100} />
+                <img src={item.image}/>
                 <h3>{item.title.slice(0, 20)}</h3>
                 <p>${item.price}</p>
                 <button

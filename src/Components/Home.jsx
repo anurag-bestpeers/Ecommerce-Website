@@ -1,20 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { ProductContext } from "./ProductProvider";
 import grocery from "../../public/Photos/grocery.jpg";
 import dress from "../../public/Photos/dress.jpg";
 import furniture from "../../public/Photos/furniture.jpg";
 import gadget from "../../public/Photos/gadget.jpg";
 function Home() {
-  const { tokenExist } = useContext(ProductContext);
   const [username, setusername] = useState("");
   useEffect(() => {
     const user = localStorage.getItem("username");
     if (user) {
       setusername(user);
     }
-  },[]);
+  }, []);
   return (
     <>
       <div
@@ -23,7 +21,7 @@ function Home() {
         data-bs-ride="carousel"
         data-bs-interval="2000"
       >
-        {tokenExist && (
+        {username && (
           <h3
             style={{
               position: "absolute",
@@ -85,8 +83,6 @@ function Home() {
             <div className="carousel-caption d-none d-md-block"></div>
           </div>
         </div>
-
-       
       </div>
     </>
   );

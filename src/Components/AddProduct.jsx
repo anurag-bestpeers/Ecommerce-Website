@@ -213,7 +213,6 @@ const AddProduct = () => {
           Add Product
         </button>
       </form>
-      <ToastContainer />
     </div>
   );
 };

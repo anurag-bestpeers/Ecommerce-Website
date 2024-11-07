@@ -5,8 +5,7 @@ import Home from "./Components/Home";
 import Products from "./Components/Products";
 import DetailedPage from "./Components/DetailedPage";
 import { ProductProvider, ProductContext } from "./Components/ProductProvider";
-import AddProduct from "./Components/AddProduct";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateProduct from "./Components/UpdateProduct";
 import SignupPage from "./Components/SignupPage";
@@ -18,12 +17,10 @@ import Carts from "./Components/Carts";
 import Wishlist from "./Components/Wishlist";
 
 const AppContent = () => {
-  const { setTokenExist } = useContext(ProductContext);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    setTokenExist(false);
   };
 
   return (

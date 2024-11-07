@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../public/Photos/logo.png";
 import { Link } from "react-router-dom";
-import { ProductContext } from "./ProductProvider";
 import { BsCart3 } from "react-icons/bs";
 import { IoIosHeart } from "react-icons/io";
 import api from "../Services/commonApi";
 const Navbar = ({ handleLogout }) => {
-  const { tokenExist } = useContext(ProductContext);
+  let token = localStorage.getItem("token");
   const [cart, setCart] = useState();
   const [wishlist, setWishList] = useState();
   const [users, setUsers] = useState([]);
@@ -64,7 +63,7 @@ const Navbar = ({ handleLogout }) => {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          {tokenExist ? (
+          {token ? (
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav ms-auto d-flex justify-content-center gap-3 align-items-center">
                 <li className="nav-item me-3 d-flex align-items-center position-relative">
