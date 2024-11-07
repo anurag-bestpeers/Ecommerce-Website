@@ -14,7 +14,7 @@ function Home() {
     if (user) {
       setusername(user);
     }
-  });
+  },[]);
   return (
     <>
       <div
@@ -51,7 +51,7 @@ function Home() {
               src={furniture}
               className="d-block mx-auto"
               alt="Slide 2"
-              style={{ minWidth: "100%", height: "582px" }}
+              style={{ minWidth: "100%", height: "586px" }}
             />
             <div className="carousel-caption d-none d-md-block"></div>
           </div>
@@ -60,7 +60,7 @@ function Home() {
               src={grocery}
               className="d-block mx-auto"
               alt="Slide 2"
-              style={{ minWidth: "100%", height: "582px" }}
+              style={{ minWidth: "100%", height: "586px" }}
             />
             <div className="carousel-caption d-none d-md-block"></div>
           </div>
@@ -70,7 +70,7 @@ function Home() {
               src={dress}
               className="d-block mx-auto"
               alt="Slide 2"
-              style={{ minWidth: "100%", height: "582px" }}
+              style={{ minWidth: "100%", height: "586px" }}
             />
             <div className="carousel-caption d-none d-md-block"></div>
           </div>
@@ -80,38 +80,13 @@ function Home() {
               src={gadget}
               className="d-block mx-auto"
               alt="Slide 2"
-              style={{ minWidth: "100%", height: "582px" }}
+              style={{ minWidth: "100%", height: "586px" }}
             />
             <div className="carousel-caption d-none d-md-block"></div>
           </div>
         </div>
 
-        {/* <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExample"
-        data-bs-slide="prev"
-        style={{ top: "10%",left:"15%" }} // Adjusts the position of the previous button
-      >
-        <span
-          className="carousel-control-prev-icon bg-dark rounded-circle"
-          aria-hidden="true"
-        ></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExample"
-        data-bs-slide="next"
-        style={{ top: "10%",right:"15%" }} // Adjusts the position of the next button
-      >
-        <span
-          className="carousel-control-next-icon bg-dark rounded-circle"
-          aria-hidden="true"
-        ></span>
-        <span className="visually-hidden">Next</span>
-      </button> */}
+       
       </div>
     </>
   );

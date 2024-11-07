@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import api from "../Services/commonApi";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 const SignupPage = () => {
   const [newSignUp, setNewSignUp] = useState({
     username: "",
     password: "",
     cPassword: "",
-    category: "select",
+    cart: [],
+    wishlist: [],
   });
   const [userData, setUserData] = useState();
   const fetchData = async () => {
@@ -46,7 +47,7 @@ const SignupPage = () => {
   };
 
   const validate = () => {
-    let arr = ["username", "password", "cPassword", "category"];
+    let arr = ["username", "password", "cPassword"];
     let msg = {};
 
     arr.forEach((item) => {
@@ -79,7 +80,8 @@ const SignupPage = () => {
       const obj = {
         username: newSignUp.username,
         password: newSignUp.password,
-        category: newSignUp.category,
+        cart: newSignUp.cart,
+        wishlist: newSignUp.wishlist,
       };
 
       await api("post", "http://localhost:3000/users", obj);
@@ -88,7 +90,8 @@ const SignupPage = () => {
         username: "",
         password: "",
         cPassword: "",
-        category: "select",
+        cart: [],
+        wishlist: [],
       });
     }
   };
@@ -129,22 +132,6 @@ const SignupPage = () => {
           <p>{errors.cPassword && errors.cPassword}</p>
         </div>
 
-        <div>
-          <label>Select Category</label>
-
-          <select
-            name="category"
-            value={newSignUp.category}
-            onChange={handleChange}
-          >
-            <option selected disabled value="select">
-              Select
-            </option>
-            <option value="seller">Seller</option>
-            <option value="buyer">Buyer</option>
-          </select>
-          <p>{errors.category && errors.category}</p>
-        </div>
         <div>
           <button onClick={handleSignup}>Signup</button>
         </div>

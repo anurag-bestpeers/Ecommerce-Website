@@ -9,8 +9,6 @@ export const ProductProvider = ({ children }) => {
 
   const [tokenExist, setTokenExist] = useState(false);
 
-  const[getCategory,setgetcategory]=useState(null);
-
   const [newLogin, setNewLogin] = useState({
     username: "",
     password: "",
@@ -41,7 +39,17 @@ export const ProductProvider = ({ children }) => {
   }, [tokenExist]);
 
   return (
-    <ProductContext.Provider value={{ products, getData, softDelete,tokenExist,setTokenExist,newLogin,setNewLogin ,getCategory,setgetcategory}}>
+    <ProductContext.Provider
+      value={{
+        products,
+        getData,
+        softDelete,
+        tokenExist,
+        setTokenExist,
+        newLogin,
+        setNewLogin,
+      }}
+    >
       {children}
       <ToastContainer position="top-center" autoClose={500} />
     </ProductContext.Provider>

@@ -1,55 +1,84 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import api from "../Services/commonApi";
-import { Link } from "react-router-dom";
-import { ProductContext } from "./ProductProvider";
+import { toast } from "react-toastify";
+import { MdDelete } from "react-icons/md";
 const Wishlist = () => {
-    const [carts, setCarts] = useState([]);
-    const [carts1, setCarts1] = useState([]);
-    const { getCategory } = useContext(ProductContext);
-  
-    const fetchData = async () => {
-      await api("get", "http://localhost:3000/wishlist")
-        .then((res) => setCarts(res))
-        .catch((err) => console.log("Error Occured", err));
-  
-      const wishlistItems = carts.map((item) => item["0"]);
-      setCarts1(wishlistItems);
-    };
-  
-    useEffect(() => {
-      fetchData();
-    }, [carts]);
-  return (
-    <div className="product_container">
-    {carts1 && carts1.length > 0 ? (
-      carts1.map((item) => {
-        return (
-          <div key={item.id} className="items">
-            <Link to={`/detail/${item.id}`}>
-              <img src={item.image} alt={item.imageAlt || "Product Image"} />
-            </Link>
-            <div className="innerItems">
-              <h4>
-                {(item.title ? item.title.toUpperCase() : "Untitled").slice(
-                  0,
-                  40
-                ) + "..."}
-              </h4>
-              <div className="price_rating">
-                <p>Price - ${Math.round(item.price)}</p>
-                <p>Rating - {item.rating?.rate}</p>
-              </div>
-              
-            </div>
-          </div>
-        );
-      })
-    ) : (
-      <p>No products available.</p>
-    )}
-  </div>
-  )
-}
+  const [username, setusername] = useState("");
+  const [users, setUsers] = useState([]);
+  const [userWishlist, setUserWishlist] = useState([]);
 
-export default Wishlist
+  useEffect(() => {
+    const user = localStorage.getItem("username");
+    if (user) {
+      setusername(user);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [users]);
+
+  const fetchData = async () => {
+    try {
+      const res = await api("get", "http://localhost:3000/users");
+      setUsers(res);
+
+      users.forEach((item) => {
+        if (item.wishlist.length >= 0 && item.username == username) {
+          setUserWishlist(item.wishlist);
+        }
+      });
+    } catch (err) {
+      console.log("Error Occurred", err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const foundUser = users.find((element) => element.username === username);
+
+    const filteredData = foundUser.wishlist.filter((item) => item.id != id);
+
+    try {
+      await api("patch", `http://localhost:3000/users/${foundUser.id}`, {
+        wishlist: filteredData,
+      });
+      toast.error("Item removed from wishlist");
+      setUserWishlist(filteredData);
+    } catch (error) {
+      console.error("Error updating the cart:", error);
+    }
+  };
+
+  return (
+    <div className="cart_container">
+      <h2>Shopping Wishlist</h2>
+      {userWishlist.length > 0 ? (
+        <div className="cart_items">
+          {userWishlist.map((item, index) => {
+            return (
+              <div key={index} className="item">
+                <img src={item.image} width={100} />
+                <h3>{item.title.slice(0, 20)}</h3>
+                <p>${item.price}</p>
+                <button
+                  onClick={() => handleDelete(item.id)}
+                  className="delete-btn"
+                >
+                  <MdDelete />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <>
+          <hr />
+          <p>No Items In The Wishlist</p>
+          <hr />
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Wishlist;

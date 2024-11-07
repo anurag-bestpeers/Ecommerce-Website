@@ -1,18 +1,13 @@
 import axios from "axios";
 
 const api = async (method, url, data) => {
-  const headers = {
-    'Content-Type': 'application/json', // or other content type
-    Authorization: 'Bearer your-access-token', // if needed
-    // Any other headers
-  };
   if (method == "get") {
     const response = await axios.get(url);
 
     const filterdData = response.data.filter((item) => !item.deleted);
     return filterdData;
   } else if (method == "post") {
-    const response = await axios.post(url, data,{headers});
+    const response = await axios.post(url, data, { headers });
     return response.data;
   } else if (method == "put") {
     const response = await axios.put(url, data);

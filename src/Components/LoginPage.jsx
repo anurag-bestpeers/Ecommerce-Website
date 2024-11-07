@@ -1,14 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import api from "../Services/commonApi";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
 const LoginPage = () => {
-  const {setTokenExist,newLogin,setNewLogin}=useContext(ProductContext);
-  // const [newLogin, setNewLogin] = useState({
-  //   username: "",
-  //   password: "",
-  // });
+  const { setTokenExist, newLogin, setNewLogin } = useContext(ProductContext);
 
   const [userData, setUserData] = useState([]);
   const [errors, setErrors] = useState({});
@@ -31,6 +27,7 @@ const LoginPage = () => {
       ...newLogin,
       [name]: trimValue,
     });
+
     setErrors({
       ...errors,
       [name]: "",
@@ -74,8 +71,8 @@ const LoginPage = () => {
       setTokenExist(true);
 
       navigate("/");
-      //   toast.success("Login Success");
-      localStorage.setItem('username',newLogin.username);
+
+      localStorage.setItem("username", newLogin.username);
       setNewLogin({
         username: "",
         password: "",

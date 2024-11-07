@@ -6,39 +6,41 @@ import { BsCart3 } from "react-icons/bs";
 import { IoIosHeart } from "react-icons/io";
 import api from "../Services/commonApi";
 const Navbar = ({ handleLogout }) => {
-  const { tokenExist,newLogin , getCategory, setgetcategory } = useContext(ProductContext);
-  const[cart,setCart]=useState(0);
-  const[users,setUsers]=useState([]);
+  const { tokenExist } = useContext(ProductContext);
+  const [cart, setCart] = useState();
+  const [wishlist, setWishList] = useState();
+  const [users, setUsers] = useState([]);
 
-  const fetchCarts=async()=>{
-    await api('get',"http://localhost:3000/carts").then(((res)=>setCart(res)))
-  }
+  const [username, setusername] = useState("");
 
-  const fetchUsers=async()=>{
-    await api('get',"http://localhost:3000/users").then(((res)=>setUsers(res)))
-  }
+  const fetchUsers = async () => {
+    await api("get", "http://localhost:3000/users").then((res) =>
+      setUsers(res)
+    );
 
-  useEffect(()=>{
+    const user = localStorage.getItem("username");
+    if (user) {
+      setusername(user);
+    }
 
-    fetchCarts();
-    users.forEach((item)=>{
-      if(item.username==newLogin.username)
-      {
-        setgetcategory(item.category);
-        console.log(getCategory);
-        
+    users.forEach((item) => {
+      if (item.username == username && item.cart) {
+        setCart(item.cart.length);
       }
-    })
-    
-  },[cart])
+    });
 
-  useEffect(()=>{
+    users.forEach((item) => {
+      if (item.username == username && item.wishlist) {
+        setWishList(item.wishlist.length);
+      }
+    });
+  };
+
+  useEffect(() => {
     fetchUsers();
-  },[])
+  }, [users]);
   return (
     <>
-      
-
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid px-3">
           <div className="d-flex align-items-center gap-2">
@@ -64,7 +66,7 @@ const Navbar = ({ handleLogout }) => {
 
           {tokenExist ? (
             <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav ms-auto d-flex gap-1 align-items-center">
+              <ul className="navbar-nav ms-auto d-flex justify-content-center gap-3 align-items-center">
                 <li className="nav-item me-3 d-flex align-items-center position-relative">
                   <Link to="/cart">
                     <BsCart3 className="text-light fs-2" />
@@ -72,31 +74,25 @@ const Navbar = ({ handleLogout }) => {
                       className="badge bg-light text-dark position-absolute"
                       style={{ top: "-0.5rem", right: "-0.5rem" }}
                     >
-                     {cart.length}
+                      {cart}
                     </span>
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/wishlist">
-                    <IoIosHeart style={{fill:'red'}} className="text-light fs-2" />
+                    <IoIosHeart
+                      style={{ fill: "red" }}
+                      className="text-light fs-2"
+                    />
                     <span
                       className="badge bg-light text-dark position-absolute"
-                      style={{ top: "-0.5rem", right: "-0.5rem" }}
+                      style={{ top: "10px", right: "220px" }}
                     >
-                     {cart.length}
+                      {wishlist}
                     </span>
                   </Link>
                 </li>
 
-               {
-                getCategory=='seller'  &&  <li className="nav-item">
-                <Link to={"/addproduct"}>
-                  <button type="button" className="btn btn-outline-light m-2">
-                    Add Products
-                  </button>
-                </Link>
-              </li>
-               }
                 <li className="nav-item">
                   <Link to={"/product"}>
                     <button type="button" className="btn btn-outline-light m-2">
@@ -107,7 +103,13 @@ const Navbar = ({ handleLogout }) => {
 
                 <li className="nav-item">
                   <Link to={"/"}>
-                  <button type="button" onClick={handleLogout} className="btn btn-outline-light">Logout</button>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="btn btn-outline-light"
+                    >
+                      Logout
+                    </button>
                   </Link>
                 </li>
               </ul>

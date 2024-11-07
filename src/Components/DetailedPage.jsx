@@ -1,88 +1,28 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
-import api from "../Services/commonApi";
-import { toast } from "react-toastify";
-import { FaHeart } from "react-icons/fa";
+
+
 const DetailedPage = () => {
   const { id } = useParams();
   const { products } = useContext(ProductContext);
-  const [singleUser, setSingleUser] = useState({});
-  const [wishlist, setWishlist] = useState(false);
-  const [carts, setCarts] = useState([]);
 
-  useEffect(() => {
-    const filterUser = products.filter((item, _) => item.id == id);
-    setSingleUser(filterUser);
-    console.log(singleUser);
-  }, []);
-
-  const fetchCarts = async () => {
-    await api("get", "http://localhost:3000/carts")
-      .then((res) => setCarts(res))
-      .catch((error) => console.log(error));
-  };
-  const handleCart = async () => {
-    let flag = false;
-    
-    const wishlistItems = carts.map((item) => item["0"].id);
-    
-    wishlistItems.forEach((itemId) => {
-      if (itemId == id) { 
-        flag = true;
-        toast.error("Item exists");
-        return;
-      }
-    });
-    
-    if (!flag) {
-      await api("post", "http://localhost:3000/carts", singleUser);
-      toast.success("Item added to cart");
-    }
-  };
-
-
-
-  useEffect(()=>{
-    fetchCarts()
-  },[carts])
-  
-
-  const handleWishlist = async () => {
-    if (wishlist) {
-      setWishlist(!wishlist);
-      toast.error("removed");
-
-      // await axios.delete(`http://localhost:3000/wishlist/${id}`);
-    } else {
-      setWishlist(!wishlist);
-      await api("post", "http://localhost:3000/wishlist", singleUser);
-      toast.success("Item added to wishlist");
-    }
-  };
   return (
-    <div className="product_container">
+    <div className="detail_container">
       {products &&
         products.map((item, index) => {
           if (id == item.id) {
             return (
-              <div key={index} className="detailitem">
-                <img src={item.image} alt="dds" />
-                <div className="innerItems">
-                  <h4>{item.title.toUpperCase().slice(0, 27) + "..."}</h4>
+              <div key={index} className="detailitem1">
+              <div className="innerItems1">
+              <img src={item.image} width={100} alt="Product" />
+              </div>
+                <div className="innerItems2">
+                  <h4>{item.title.toUpperCase().slice(0,20)}</h4>
+                  <p>{(item.description).slice(0,300)+"..."}</p>
                   <div className="price_rating">
                     <p>Price - ${Math.round(item.price)}</p>
                     <p>Rating - {item.rating.rate}</p>
-                  </div>
-                  <div className="wishlist">
-                    <button onClick={handleCart} className="detailBtn">
-                      Add to cart
-                    </button>
-
-                    <FaHeart
-                      className={wishlist ? "activeWishlist" : ""}
-                      onClick={handleWishlist}
-                    />
                   </div>
                 </div>
               </div>
@@ -94,3 +34,5 @@ const DetailedPage = () => {
 };
 
 export default DetailedPage;
+
+

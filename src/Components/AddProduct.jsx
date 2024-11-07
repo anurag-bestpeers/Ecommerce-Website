@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef, useId } from "react";
 import { ProductContext } from "./ProductProvider";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import api from "../Services/commonApi";
 

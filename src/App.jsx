@@ -12,43 +12,41 @@ import UpdateProduct from "./Components/UpdateProduct";
 import SignupPage from "./Components/SignupPage";
 import LoginPage from "./Components/LoginPage";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
-// In src/index.js or src/App.js
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Carts from "./Components/Carts";
 import Wishlist from "./Components/Wishlist";
 
 const AppContent = () => {
-  const { tokenExist, setTokenExist } = useContext(ProductContext);
+  const { setTokenExist } = useContext(ProductContext);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem('username')
+    localStorage.removeItem("username");
     setTokenExist(false);
   };
 
   return (
     <>
-      <ToastContainer position="top-center" autoClose={500} />
+      <ToastContainer position="top-right" autoClose={500} />
       <Router>
         <Navbar handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home />} />
-          
+
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
 
-          <Route element={<ProtectedRoutes/>}>
-          <Route path="/product" element={<Products />} />
-          <Route path="/detail/:id" element={<DetailedPage />} />
-          <Route path="/addproduct" element={<AddProduct />} />
-          <Route path="/cart" element={<Carts />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/updateproduct/:id" element={<UpdateProduct />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/product" element={<Products />} />
+            <Route path="/detail/:id" element={<DetailedPage />} />
+            <Route path="/cart" element={<Carts />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/updateproduct/:id" element={<UpdateProduct />} />
           </Route>
 
-          <Route path="*" element={<Home/>}/>
+          <Route path="*" element={<Home />} />
         </Routes>
-       
       </Router>
     </>
   );
