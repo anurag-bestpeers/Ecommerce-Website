@@ -39,7 +39,6 @@ const AppContent = () => {
             <Route path="/detail/:id" element={<DetailedPage />} />
             <Route path="/cart" element={<Carts />} />
             <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/updateproduct/:id" element={<UpdateProduct />} />
           </Route>
 
           <Route path="*" element={<Home />} />
