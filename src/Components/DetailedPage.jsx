@@ -1,33 +1,44 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ProductContext } from "./ProductProvider";
+import api from "../Services/commonApi";
 
 const DetailedPage = () => {
   const { id } = useParams();
-  const { products } = useContext(ProductContext);
+
+  const [singleData, setSingleData] = useState();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      await api("get", `http://localhost:3000/products/${id}`).then((res) =>
+        setSingleData(res)
+      );
+      console.log(singleData);
+    };
+
+    fetchProduct();
+  }, []);
 
   return (
     <div className="detail_container">
-      {products &&
-        products.map((item, index) => {
-          if (id == item.id) {
-            return (
-              <div key={index} className="detailitem1">
-                <div className="innerItems1">
-                  <img src={item.image} width={100} alt="Product" />
-                </div>
-                <div className="innerItems2">
-                  <h4>{item.title.toUpperCase().slice(0, 20)}</h4>
-                  <p>{item.description.slice(0, 300) + "..."}</p>
-                  <div className="price_rating">
-                    <p>Price - ${Math.round(item.price)}</p>
-                    <p>Rating - {item.rating.rate}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          }
-        })}
+      {singleData && (
+        <div className="detailitem1">
+          <div className="innerItems1">
+            <img
+              src={singleData.image && singleData.image}
+              width={100}
+              alt="Product"
+            />
+          </div>
+          <div className="innerItems2">
+            <h4>{singleData.title.toUpperCase().slice(0, 20)}</h4>
+            <p>{singleData.description.slice(0, 300) + "..."}</p>
+            <div className="price_rating">
+              <p>Price - ${Math.round(singleData.price)}</p>
+              <p>Rating - {singleData.rating.rate}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

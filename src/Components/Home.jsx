@@ -12,7 +12,7 @@ function Home() {
     if (user) {
       setusername(user);
     }
-  }, []);
+  }, [username]);
   return (
     <>
       <div
