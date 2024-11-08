@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import Products from "./Components/Products";
 import DetailedPage from "./Components/DetailedPage";
-import { ProductProvider, ProductContext } from "./Components/ProductProvider";
+import { ProductProvider } from "./Components/ProductProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import UpdateProduct from "./Components/UpdateProduct";
 import SignupPage from "./Components/SignupPage";
 import LoginPage from "./Components/LoginPage";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
