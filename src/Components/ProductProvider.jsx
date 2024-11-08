@@ -12,13 +12,7 @@ export const ProductProvider = ({ children }) => {
     password: "",
   });
 
-  const softDelete = async (id) => {
-    await api("patch", `http://localhost:3000/products/${id}`, {
-      deleted: true,
-    });
-    toast.success("Item deleted...");
-    getData();
-  };
+
   const getData = () => {
     const responseData = api("get", "http://localhost:3000/products");
     responseData.then((res) => setProducts(res));
@@ -33,7 +27,6 @@ export const ProductProvider = ({ children }) => {
       value={{
         products,
         getData,
-        softDelete,
         newLogin,
         setNewLogin,
       }}

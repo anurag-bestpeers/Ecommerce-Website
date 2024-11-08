@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
-import { MdEdit, MdOutlineDelete } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../Services/commonApi";
 
 const Products = () => {
   const [users, setUsers] = useState([]);
-  const { products, getData, softDelete, getCategory } =
-    useContext(ProductContext);
+  const { products, getData } = useContext(ProductContext);
   const [username, setUsername] = useState("");
   const [wishlist, setWishlist] = useState([]);
 
@@ -40,11 +38,7 @@ const Products = () => {
 
   useEffect(() => {
     getData();
-  }, [getData]);
-
-  const handleSoftDelete = (id) => {
-    softDelete(id);
-  };
+  }, []); //getData()depen..
 
   const handleCart = async (item) => {
     const foundUser = users.find((element) => element.username == username);
@@ -122,18 +116,7 @@ const Products = () => {
                   <p>Price - ${Math.round(item.price)}</p>
                   <p>Rating - {item.rating?.rate}</p>
                 </div>
-                {getCategory === "seller" && (
-                  <div className="productBtn">
-                    <Link to={`/updateproduct/${item.id}`}>
-                      <button>
-                        <MdEdit />
-                      </button>
-                    </Link>
-                    <button onClick={() => handleSoftDelete(item.id)}>
-                      <MdOutlineDelete />
-                    </button>
-                  </div>
-                )}
+
                 <div className="wishlist">
                   <button
                     onClick={() => handleCart(item)}
