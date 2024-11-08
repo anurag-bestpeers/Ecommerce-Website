@@ -53,8 +53,6 @@ const SignupPage = () => {
     arr.forEach((item) => {
       if (newSignUp[item] == "") {
         msg[item] = `${item} is required`;
-      } else if (newSignUp[item] == "select") {
-        msg[item] = `${item} is required`;
       } else if (newSignUp.cPassword != newSignUp.password) {
         msg["cPassword"] = `please match the password`;
       }
