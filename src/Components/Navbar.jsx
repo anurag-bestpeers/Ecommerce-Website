@@ -4,13 +4,18 @@ import { Link } from "react-router-dom";
 import { BsCart3 } from "react-icons/bs";
 import { IoIosHeart } from "react-icons/io";
 import api from "../Services/commonApi";
-const Navbar = ({ handleLogout }) => {
+const Navbar = () => {
   let token = localStorage.getItem("token");
   const [cart, setCart] = useState();
   const [wishlist, setWishList] = useState();
   const [users, setUsers] = useState([]);
 
   const [username, setusername] = useState("");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+  };
 
   const fetchUsers = async () => {
     await api("get", "http://localhost:3000/users").then((res) =>

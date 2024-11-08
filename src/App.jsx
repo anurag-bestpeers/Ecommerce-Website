@@ -16,17 +16,11 @@ import Carts from "./Components/Carts";
 import Wishlist from "./Components/Wishlist";
 
 const AppContent = () => {
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-  };
-
   return (
     <>
       <ToastContainer position="top-right" autoClose={500} />
       <Router>
-        <Navbar handleLogout={handleLogout} />
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
 
