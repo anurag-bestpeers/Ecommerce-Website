@@ -4,12 +4,17 @@ import { ProductContext } from "./ProductProvider";
 import { FaHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../Services/commonApi";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../RTK/productSlice";
 
 const Products = () => {
   const [users, setUsers] = useState([]);
   const { products, getData } = useContext(ProductContext);
   const [username, setUsername] = useState("");
   const [wishlist, setWishlist] = useState([]);
+  const dispatch = useDispatch();
+  const pro = useSelector((state) => state.product.products);
+  // console.log(pro)
 
   useEffect(() => {
     const user = localStorage.getItem("username");
@@ -19,26 +24,30 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await api("get", "http://localhost:3000/users");
-        setUsers(res);
+    dispatch(fetchProducts());
+  }, []);
 
-        const foundUser = res.find((user) => user.username === username);
-        if (foundUser) {
-          setWishlist(foundUser.wishlist || []);
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
+  const fetchUsers = async () => {
+    try {
+      const res = await api("get", "http://localhost:3000/users");
+      setUsers(res);
+
+      const foundUser = res.find((user) => user.username === username);
+      if (foundUser) {
+        setWishlist(foundUser.wishlist || []);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, [users]);
 
-  useEffect(() => {
-    getData();
-  }, []); //getData()depen..
+  // useEffect(() => {
+  //   getData();
+  // }, []); //getData()depen..
 
   const handleCart = async (item) => {
     const foundUser = users.find((element) => element.username == username);
@@ -95,8 +104,8 @@ const Products = () => {
 
   return (
     <div className="product_container">
-      {products && products.length > 0 ? (
-        products.map((item) => {
+      {pro && pro.length > 0 ? (
+        pro.map((item) => {
           const isInWishlist = wishlist.some(
             (wishlistItem) => wishlistItem.id === item.id
           );
@@ -142,6 +151,10 @@ const Products = () => {
       ) : (
         <p>No products available.</p>
       )}
+      {pro &&
+        pro.map((item, index) => {
+          return <h3>{index}</h3>;
+        })}
     </div>
   );
 };

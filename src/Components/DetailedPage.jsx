@@ -12,7 +12,6 @@ const DetailedPage = () => {
       await api("get", `http://localhost:3000/products/${id}`).then((res) =>
         setSingleData(res)
       );
-      console.log(singleData);
     };
 
     fetchProduct();
