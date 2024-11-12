@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import { BsCart3 } from "react-icons/bs";
 import { IoIosHeart } from "react-icons/io";
 import api from "../Services/commonApi";
+import { useSelector } from "react-redux";
 const Navbar = () => {
   let token = localStorage.getItem("token");
   const [cart, setCart] = useState();
   const [wishlist, setWishList] = useState();
   const [users, setUsers] = useState([]);
-
+  const singleUser = useSelector((state) => state.user.cart);
   const [username, setusername] = useState("");
 
   const handleLogout = () => {
@@ -78,7 +79,7 @@ const Navbar = () => {
                       className="badge bg-light text-dark position-absolute"
                       style={{ top: "-0.5rem", right: "-0.5rem" }}
                     >
-                      {cart}
+                      {singleUser.length}
                     </span>
                   </Link>
                 </li>

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import api from "../Services/commonApi";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../RTK/productSlice";
+import { addToCart } from "../RTK/userSlice";
 
 const Products = () => {
   const [users, setUsers] = useState([]);
@@ -14,7 +15,11 @@ const Products = () => {
   const [wishlist, setWishlist] = useState([]);
   const dispatch = useDispatch();
   const pro = useSelector((state) => state.product.products);
-  // console.log(pro)
+  
+
+  // const singleUser = useSelector((state) => state.user.cart);
+
+  // console.log("Cart state:", singleUser); 
 
   useEffect(() => {
     const user = localStorage.getItem("username");
@@ -50,22 +55,24 @@ const Products = () => {
   // }, []); //getData()depen..
 
   const handleCart = async (item) => {
-    const foundUser = users.find((element) => element.username == username);
-    const isDuplicate = foundUser.cart.some(
-      (cartItem) => cartItem.id === item.id
-    );
-    if (isDuplicate) {
-      toast.error("Item already in the cart");
-      return;
-    }
-    try {
-      await api("patch", `http://localhost:3000/users/${foundUser.id}`, {
-        cart: [...foundUser.cart, item],
-      });
-      toast.success("Item added to the cart.");
-    } catch (error) {
-      console.error("Error updating the cart:", error);
-    }
+
+    dispatch(addToCart(item))
+    // const foundUser = users.find((element) => element.username == username);
+    // const isDuplicate = foundUser.cart.some(
+    //   (cartItem) => cartItem.id === item.id
+    // );
+    // if (isDuplicate) {
+    //   toast.error("Item already in the cart");
+    //   return;
+    // }
+    // try {
+    //   await api("patch", `http://localhost:3000/users/${foundUser.id}`, {
+    //     cart: [...foundUser.cart, item],
+    //   });
+    //   toast.success("Item added to the cart.");
+    // } catch (error) {
+    //   console.error("Error updating the cart:", error);
+    // }
   };
 
   const handleWishlist = async (item) => {
@@ -151,10 +158,10 @@ const Products = () => {
       ) : (
         <p>No products available.</p>
       )}
-      {pro &&
+      {/* {pro &&
         pro.map((item, index) => {
           return <h3>{index}</h3>;
-        })}
+        })} */}
     </div>
   );
 };

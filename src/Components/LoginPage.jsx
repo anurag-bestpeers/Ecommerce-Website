@@ -3,8 +3,11 @@ import api from "../Services/commonApi";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductContext } from "./ProductProvider";
+import { useDispatch } from "react-redux";
+import { loggedUser } from "../RTK/userSlice";
 const LoginPage = () => {
   const { newLogin, setNewLogin } = useContext(ProductContext);
+  const dispatch=useDispatch();
 
   const [userData, setUserData] = useState([]);
   const [errors, setErrors] = useState({});
@@ -61,6 +64,8 @@ const LoginPage = () => {
         element.password == newLogin.password
       ) {
         loginSuccessful = true;
+        dispatch(loggedUser(element))
+        
       }
     });
 
