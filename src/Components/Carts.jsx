@@ -1,34 +1,56 @@
 import React, { useEffect, useState } from "react";
-import api from "../Services/commonApi";
-import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart } from "../RTK/userSlice";
+import axios from "axios";
 const Carts = () => {
-  const [username, setusername] = useState("");
-  const [users, setUsers] = useState([]);
-  const [userCart, setuserCart] = useState([]);
   const singleUser = useSelector((state) => state.user.cart);
-  const dispatch=useDispatch()
-  console.log("Cart state:", singleUser); 
+  const dispatch = useDispatch();
+  const [username, setusername] = useState();
 
-  
-  
   useEffect(() => {
-    const user = localStorage.getItem("username");
+    let user = localStorage.getItem("username");
     if (user) {
       setusername(user);
     }
   }, []);
 
-
-
   const handleDelete = async (id) => {
-    dispatch(removeCart(id))
+    dispatch(removeCart(id));
+
+    if (!username) {
+      console.error("No username found. Cannot update cart.");
+      return;
+    }
+
+    try {
+      const userResponse = await axios.get(
+        `http://localhost:3000/users?username=${username}`
+      );
+
+      if (userResponse.data.length > 0) {
+        const user = userResponse.data[0];
+
+        const filteredData = user.cart.filter((item, ind) => item.id != id);
+        const updatedCart = filteredData;
+
+        const response = await axios.put(
+          `http://localhost:3000/users/${user.id}`,
+          {
+            ...user,
+            cart: updatedCart,
+          }
+        );
+
+        console.log("Item remove to cart in db:", response.data);
+      } else {
+        console.error("User not found.");
+      }
+    } catch (error) {
+      console.error("Error adding to cart in db:", error);
+    }
   };
-
-
 
   return (
     <div className="cart_container">
@@ -38,10 +60,10 @@ const Carts = () => {
           {singleUser.map((item, index) => {
             return (
               <div className="item">
-              <Link to={`/detail/${item.id}`}>
-              <img src={item.image} width={100} />
-              </Link>
-                <h3>{item.title.slice(0, 10)+"..."}</h3>
+                <Link to={`/detail/${item.id}`}>
+                  <img src={item.image} width={100} />
+                </Link>
+                <h3>{item.title.slice(0, 10) + "..."}</h3>
                 <p>${item.price}</p>
                 <button
                   onClick={() => handleDelete(item.id)}

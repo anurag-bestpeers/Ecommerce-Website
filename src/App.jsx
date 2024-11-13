@@ -4,7 +4,6 @@ import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import Products from "./Components/Products";
 import DetailedPage from "./Components/DetailedPage";
-import { ProductProvider } from "./Components/ProductProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignupPage from "./Components/SignupPage";
@@ -43,9 +42,7 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <ProductProvider>
       <AppContent />
-    </ProductProvider>
   );
 };
 

@@ -7,10 +7,9 @@ import api from "../Services/commonApi";
 import { useSelector } from "react-redux";
 const Navbar = () => {
   let token = localStorage.getItem("token");
-  const [cart, setCart] = useState();
-  const [wishlist, setWishList] = useState();
   const [users, setUsers] = useState([]);
   const singleUser = useSelector((state) => state.user.cart);
+  const singleUserWishList = useSelector((state) => state.user.wishlist);
   const [username, setusername] = useState("");
 
   const handleLogout = () => {
@@ -28,17 +27,7 @@ const Navbar = () => {
       setusername(user);
     }
 
-    users.forEach((item) => {
-      if (item.username == username && item.cart) {
-        setCart(item.cart.length);
-      }
-    });
-
-    users.forEach((item) => {
-      if (item.username == username && item.wishlist) {
-        setWishList(item.wishlist.length);
-      }
-    });
+    
   };
 
   useEffect(() => {
@@ -93,7 +82,7 @@ const Navbar = () => {
                       className="badge bg-light text-dark position-absolute"
                       style={{ top: "10px", right: "220px" }}
                     >
-                      {wishlist}
+                      {singleUserWishList.length}
                     </span>
                   </Link>
                 </li>

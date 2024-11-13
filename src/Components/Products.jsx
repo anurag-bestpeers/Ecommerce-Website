@@ -1,111 +1,103 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ProductContext } from "./ProductProvider";
 import { FaHeart } from "react-icons/fa";
-import { toast } from "react-toastify";
-import api from "../Services/commonApi";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../RTK/productSlice";
-import { addToCart } from "../RTK/userSlice";
+import { addToCart, addToWishList, removeFromWishList } from "../RTK/userSlice";
+import axios from "axios";
 
 const Products = () => {
-  const [users, setUsers] = useState([]);
-  const { products, getData } = useContext(ProductContext);
-  const [username, setUsername] = useState("");
-  const [wishlist, setWishlist] = useState([]);
+  const [username, setusername] = useState();
   const dispatch = useDispatch();
   const pro = useSelector((state) => state.product.products);
-  
-
-  // const singleUser = useSelector((state) => state.user.cart);
-
-  // console.log("Cart state:", singleUser); 
-
+  const singleUserWishlist = useSelector((state) => state.user.wishlist);
+  const singleUser = useSelector((state) => state.user.cart);
   useEffect(() => {
-    const user = localStorage.getItem("username");
+    let user = localStorage.getItem("username");
     if (user) {
-      setUsername(user);
+      setusername(user);
     }
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchProducts());
   }, []);
 
-  const fetchUsers = async () => {
-    try {
-      const res = await api("get", "http://localhost:3000/users");
-      setUsers(res);
-
-      const foundUser = res.find((user) => user.username === username);
-      if (foundUser) {
-        setWishlist(foundUser.wishlist || []);
-      }
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, [users]);
-
-  // useEffect(() => {
-  //   getData();
-  // }, []); //getData()depen..
-
   const handleCart = async (item) => {
+    dispatch(addToCart(item));
 
-    dispatch(addToCart(item))
-    // const foundUser = users.find((element) => element.username == username);
-    // const isDuplicate = foundUser.cart.some(
-    //   (cartItem) => cartItem.id === item.id
-    // );
-    // if (isDuplicate) {
-    //   toast.error("Item already in the cart");
-    //   return;
-    // }
-    // try {
-    //   await api("patch", `http://localhost:3000/users/${foundUser.id}`, {
-    //     cart: [...foundUser.cart, item],
-    //   });
-    //   toast.success("Item added to the cart.");
-    // } catch (error) {
-    //   console.error("Error updating the cart:", error);
-    // }
-  };
-
-  const handleWishlist = async (item) => {
-    const foundUser = users.find((element) => element.username === username);
-
-    if (!foundUser) {
-      toast.error("User not found");
+    if (!username) {
+      console.error("No username found. Cannot update cart.");
       return;
     }
 
-    const isDuplicate = wishlist.some(
-      (wishlistItem) => wishlistItem.id === item.id
-    );
+    try {
+      const userResponse = await axios.get(
+        `http://localhost:3000/users?username=${username}`
+      );
+
+      if (userResponse.data.length > 0) {
+        const user = userResponse.data[0];
+
+        if (user.cart.some((cartItem) => cartItem.id === item.id)) {
+          console.log("Item is already in the cart.");
+          return;
+        }
+
+        const updatedCart = [...user.cart, item];
+
+        const response = await axios.put(
+          `http://localhost:3000/users/${user.id}`,
+          {
+            ...user,
+            cart: updatedCart,
+          }
+        );
+
+        console.log("Item added to cart in db:", response.data);
+      } else {
+        console.error("User not found.");
+      }
+    } catch (error) {
+      console.error("Error adding to cart in db:", error);
+    }
+  };
+
+  const handleWishlist = async (item) => {
+    if (!username) {
+      console.error("No username found. Cannot update wishlist.");
+      return;
+    }
 
     try {
-      let updatedWishlist;
+      const userResponse = await axios.get(
+        `http://localhost:3000/users?username=${username}`
+      );
 
-      if (isDuplicate) {
-        updatedWishlist = wishlist.filter(
-          (wishlistItem) => wishlistItem.id !== item.id
+      if (userResponse.data.length > 0) {
+        const user = userResponse.data[0];
+
+        const isInWishlist = user.wishlist.some(
+          (cartItem) => cartItem.id === item.id
         );
-        toast.info("Item removed from wishlist");
-      } else {
-        updatedWishlist = [...wishlist, item];
-        toast.success("Item added to wishlist");
-      }
 
-      setWishlist(updatedWishlist);
-      await api("patch", `http://localhost:3000/users/${foundUser.id}`, {
-        wishlist: updatedWishlist,
-      });
+        let updatedWishlist;
+
+        if (isInWishlist) {
+          updatedWishlist = user.wishlist.filter(
+            (cartItem) => cartItem.id !== item.id
+          );
+          dispatch(removeFromWishList(item.id));
+        } else {
+          updatedWishlist = [...user.wishlist, item];
+          dispatch(addToWishList(item));
+        }
+
+        await axios.patch(`http://localhost:3000/users/${user.id}`, {
+          wishlist: updatedWishlist,
+        });
+
+        console.log("Wishlist updated successfully in the database.");
+      }
     } catch (error) {
-      console.error("Error updating the wishlist:", error);
+      console.error("Error updating wishlist in db:", error);
     }
   };
 
@@ -113,7 +105,7 @@ const Products = () => {
     <div className="product_container">
       {pro && pro.length > 0 ? (
         pro.map((item) => {
-          const isInWishlist = wishlist.some(
+          const isInWishlist = singleUserWishlist.some(
             (wishlistItem) => wishlistItem.id === item.id
           );
           return (
@@ -158,10 +150,6 @@ const Products = () => {
       ) : (
         <p>No products available.</p>
       )}
-      {/* {pro &&
-        pro.map((item, index) => {
-          return <h3>{index}</h3>;
-        })} */}
     </div>
   );
 };

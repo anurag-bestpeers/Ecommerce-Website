@@ -23,9 +23,11 @@ const userSlice = createSlice({
       console.log("Logged user data:", state);
     },
 
-    addToCart:  (state, action) => {
+    addToCart: (state, action) => {
       const item = action.payload;
-      const isDuplicate = state.cart.find((cartItem) => cartItem.id === item.id);
+      const isDuplicate = state.cart.find(
+        (cartItem) => cartItem.id === item.id
+      );
 
       if (!isDuplicate) {
         state.cart.push(item);
@@ -37,14 +39,47 @@ const userSlice = createSlice({
 
     removeCart: (state, action) => {
       const itemId = action.payload;
-      const updatedCart = state.cart.filter((cartItem) => cartItem.id!== itemId);
+      const updatedCart = state.cart.filter(
+        (cartItem) => cartItem.id !== itemId
+      );
 
       state.cart = updatedCart;
       toast.success("Item removed");
-    }
+    },
+    addToWishList: (state, action) => {
+      const item = action.payload;
+      const isDuplicate = state.wishlist.find(
+        (wishlistItem) => wishlistItem.id === item.id
+      );
+
+      if (isDuplicate) {
+        state.wishlist = state.wishlist.filter(
+          (wishlistItem) => wishlistItem.id !== item.id
+        );
+        toast.info("Item removed from wishlist");
+      } else {
+        state.wishlist.push(item);
+        toast.success("Item added to wishlist");
+      }
+    },
+    removeFromWishList: (state, action) => {
+      const itemId = action.payload;
+      const updatedWishlist = state.wishlist.filter(
+        (wishlistItem) => wishlistItem.id !== itemId
+      );
+
+      state.wishlist = updatedWishlist;
+      toast.success("Item removed from wishlist");
+    },
   },
 });
 
-export const { loggedUser, addToCart ,removeCart} = userSlice.actions;
+export const {
+  loggedUser,
+  addToCart,
+  removeCart,
+  addToWishList,
+  removeFromWishList,
+} = userSlice.actions;
 
 export default userSlice.reducer;
