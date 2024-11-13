@@ -10,7 +10,6 @@ const Navbar = () => {
   const [users, setUsers] = useState([]);
   const singleUser = useSelector((state) => state.user.cart);
   const singleUserWishList = useSelector((state) => state.user.wishlist);
-  const [username, setusername] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,13 +20,6 @@ const Navbar = () => {
     await api("get", "http://localhost:3000/users").then((res) =>
       setUsers(res)
     );
-
-    const user = localStorage.getItem("username");
-    if (user) {
-      setusername(user);
-    }
-
-    
   };
 
   useEffect(() => {

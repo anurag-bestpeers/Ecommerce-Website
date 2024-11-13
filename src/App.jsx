@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
-import Products from "./Components/Products";
 import DetailedPage from "./Components/DetailedPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Carts from "./Components/Carts";
 import Wishlist from "./Components/Wishlist";
+import Products from "./Components/Products";
 
 const AppContent = () => {
   return (

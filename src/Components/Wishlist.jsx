@@ -7,7 +7,7 @@ const Wishlist = () => {
   const singleUser = useSelector((state) => state.user.wishlist);
   const dispatch = useDispatch();
   const [username, setusername] = useState();
-
+  const singleUserWishList = useSelector((state) => state.user);
   useEffect(() => {
     let user = localStorage.getItem("username");
     if (user) {
@@ -24,28 +24,20 @@ const Wishlist = () => {
     }
 
     try {
-      const userResponse = await axios.get(
-        `http://localhost:3000/users?username=${username}`
+      const filteredData = singleUserWishList.wishlist.filter(
+        (item, ind) => item.id != id
+      );
+      const updatedCart = filteredData;
+
+      const response = await axios.put(
+        `http://localhost:3000/users/${singleUserWishList.id}`,
+        {
+          ...singleUserWishList,
+          wishlist: updatedCart,
+        }
       );
 
-      if (userResponse.data.length > 0) {
-        const user = userResponse.data[0];
-
-        const filteredData = user.wishlist.filter((item, ind) => item.id != id);
-        const updatedCart = filteredData;
-
-        const response = await axios.put(
-          `http://localhost:3000/users/${user.id}`,
-          {
-            ...user,
-            wishlist: updatedCart,
-          }
-        );
-
-        console.log("Item remove to cart in db:", response.data);
-      } else {
-        console.error("User not found.");
-      }
+      console.log("Item remove to cart in db:", response.data);
     } catch (error) {
       console.error("Error adding to cart in db:", error);
     }

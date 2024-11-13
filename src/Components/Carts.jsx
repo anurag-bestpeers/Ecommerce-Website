@@ -8,7 +8,7 @@ const Carts = () => {
   const singleUser = useSelector((state) => state.user.cart);
   const dispatch = useDispatch();
   const [username, setusername] = useState();
-
+  const singleUserCart = useSelector((state) => state.user);
   useEffect(() => {
     let user = localStorage.getItem("username");
     if (user) {
@@ -25,28 +25,21 @@ const Carts = () => {
     }
 
     try {
-      const userResponse = await axios.get(
-        `http://localhost:3000/users?username=${username}`
+      const filteredData = singleUserCart.cart.filter(
+        (item, ind) => item.id != id
+      );
+      const updatedCart = filteredData;
+
+      const response = await axios.put(
+        `http://localhost:3000/users/${singleUserCart.id}`,
+        {
+          ...singleUserCart,
+          cart: updatedCart,
+        }
       );
 
-      if (userResponse.data.length > 0) {
-        const user = userResponse.data[0];
-
-        const filteredData = user.cart.filter((item, ind) => item.id != id);
-        const updatedCart = filteredData;
-
-        const response = await axios.put(
-          `http://localhost:3000/users/${user.id}`,
-          {
-            ...user,
-            cart: updatedCart,
-          }
-        );
-
-        console.log("Item remove to cart in db:", response.data);
-      } else {
-        console.error("User not found.");
-      }
+      console.log("Item remove to cart in db:", response.data);
+      console.error("User not found.");
     } catch (error) {
       console.error("Error adding to cart in db:", error);
     }

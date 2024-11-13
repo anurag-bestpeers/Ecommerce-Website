@@ -11,7 +11,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const pro = useSelector((state) => state.product.products);
   const singleUserWishlist = useSelector((state) => state.user.wishlist);
-  const singleUser = useSelector((state) => state.user.cart);
+  const singleUser = useSelector((state) => state.user);
   useEffect(() => {
     let user = localStorage.getItem("username");
     if (user) {
@@ -29,32 +29,22 @@ const Products = () => {
     }
 
     try {
-      const userResponse = await axios.get(
-        `http://localhost:3000/users?username=${username}`
+      if (singleUser.cart.some((cartItem) => cartItem.id === item.id)) {
+        console.log("Item is already in the cart.");
+        return;
+      }
+
+      const updatedCart = [...singleUser.cart, item];
+
+      const response = await axios.patch(
+        `http://localhost:3000/users/${singleUser.id}`,
+        {
+          ...singleUser,
+          cart: updatedCart,
+        }
       );
 
-      if (userResponse.data.length > 0) {
-        const user = userResponse.data[0];
-
-        if (user.cart.some((cartItem) => cartItem.id === item.id)) {
-          console.log("Item is already in the cart.");
-          return;
-        }
-
-        const updatedCart = [...user.cart, item];
-
-        const response = await axios.put(
-          `http://localhost:3000/users/${user.id}`,
-          {
-            ...user,
-            cart: updatedCart,
-          }
-        );
-
-        console.log("Item added to cart in db:", response.data);
-      } else {
-        console.error("User not found.");
-      }
+      console.log("Item added to cart in db:", response.data);
     } catch (error) {
       console.error("Error adding to cart in db:", error);
     }
@@ -67,35 +57,27 @@ const Products = () => {
     }
 
     try {
-      const userResponse = await axios.get(
-        `http://localhost:3000/users?username=${username}`
+      const isInWishlist = singleUser.wishlist.some(
+        (cartItem) => cartItem.id === item.id
       );
 
-      if (userResponse.data.length > 0) {
-        const user = userResponse.data[0];
+      let updatedWishlist;
 
-        const isInWishlist = user.wishlist.some(
-          (cartItem) => cartItem.id === item.id
+      if (isInWishlist) {
+        updatedWishlist = singleUser.wishlist.filter(
+          (cartItem) => cartItem.id !== item.id
         );
-
-        let updatedWishlist;
-
-        if (isInWishlist) {
-          updatedWishlist = user.wishlist.filter(
-            (cartItem) => cartItem.id !== item.id
-          );
-          dispatch(removeFromWishList(item.id));
-        } else {
-          updatedWishlist = [...user.wishlist, item];
-          dispatch(addToWishList(item));
-        }
-
-        await axios.patch(`http://localhost:3000/users/${user.id}`, {
-          wishlist: updatedWishlist,
-        });
-
-        console.log("Wishlist updated successfully in the database.");
+        dispatch(removeFromWishList(item.id));
+      } else {
+        updatedWishlist = [...singleUser.wishlist, item];
+        dispatch(addToWishList(item));
       }
+
+      await axios.patch(`http://localhost:3000/users/${singleUser.id}`, {
+        wishlist: updatedWishlist,
+      });
+
+      console.log("Wishlist updated successfully in the database.");
     } catch (error) {
       console.error("Error updating wishlist in db:", error);
     }
